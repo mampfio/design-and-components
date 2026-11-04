@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.mampfio</groupId>
+  <artifactId>mampfio-design-system</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>Mampfio design system (WebJar)</name>
+  <description>Tokens, fonts, logos and the compiled Mampfio stylesheet with Bootstrap 5 inside.</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Standard WebJar location, so Spring Boot serves it under /webjars/** -->
+    <webjar.path>META-INF/resources/webjars/${project.artifactId}/${project.version}</webjar.path>
+    <node.version>v24.22.0</node.version>
+    <frontend-maven-plugin.version>1.15.4</frontend-maven-plugin.version>
+    <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+  </properties>
+
+  <build>
+    <resources>
+      <!-- Everything npm run build puts into dist/ becomes the WebJar content -->
+      <resource>
+        <directory>${project.basedir}/dist</directory>
+        <targetPath>${webjar.path}</targetPath>
+      </resource>
+      <!-- webjars-locator.properties: lets webjars-locator-lite resolve version-free URLs -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>${frontend-maven-plugin.version}</version>
+        <configuration>
+          <nodeVersion>${node.version}</nodeVersion>
+          <installDirectory>target</installDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install-node-and-npm</id>
+            <goals><goal>install-node-and-npm</goal></goals>
+          </execution>
+          <execution>
+            <id>npm-ci</id>
+            <goals><goal>npm</goal></goals>
+            <configuration><arguments>ci --no-audit --no-fund</arguments></configuration>
+          </execution>
+          <execution>
+            <!-- generates tokens, checks the Bootstrap adapter, compiles Sass, copies assets -->
+            <id>npm-build</id>
+            <goals><goal>npm</goal></goals>
+            <configuration><arguments>run build</arguments></configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>${maven-clean-plugin.version}</version>
+        <configuration>
+          <filesets>
+            <fileset><directory>dist</directory></fileset>
+            <fileset>
+              <directory>scss</directory>
+              <includes><include>*.generated.scss</include></includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

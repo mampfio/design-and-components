@@ -1,0 +1,8 @@
+// Mampfio design system, compiled with Bootstrap 5 as an implementation detail.
+// The design system comes first; Bootstrap only receives values through the adapter.
+
+@import "tokens.generated";          // 1. Design-system values as Sass variables (no CSS output)
+@import "bootstrap-adapter";         // 2. Hand them to Bootstrap through its !default variables
+@import "bootstrap/scss/bootstrap";  // 3. Stock Bootstrap, never edited, never copied
+@import "design-system.generated";   // 4. Fonts, custom properties and type styles
+@import "extensions";                // 5. The few gaps variables can't close

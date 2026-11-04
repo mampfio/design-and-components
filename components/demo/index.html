@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mampfio design system – Bootstrap check</title>
+<link rel="stylesheet" href="../dist/css/mampfio.css">
+</head>
+<body>
+<header class="border-bottom">
+  <div class="container py-4 d-flex align-items-center gap-4">
+    <picture>
+      <source srcset="../dist/logos/mampfio-lockup-reversed.svg" media="(prefers-color-scheme: dark)">
+      <img src="../dist/logos/mampfio-lockup.svg" alt="Mampfio" height="40">
+    </picture>
+    <span class="badge text-bg-warning ms-auto">Neu in Köln</span>
+  </div>
+</header>
+
+<main class="container py-12">
+  <h1 class="mf-display-l mb-2">Pizza in deiner Nähe</h1>
+  <p class="mf-body-l text-body-secondary mb-8">Wir bringen dir dein Lieblingsessen – heiß und pünktlich.</p>
+
+  <div class="row g-6 mb-12">
+    <div class="col-md-4">
+      <article class="card h-100">
+        <div class="card-body p-4">
+          <h2 class="mf-heading-s mb-1">Trattoria Bella</h2>
+          <p class="mf-caption text-body-secondary mb-4">25–35 Min · 1,99 € Lieferung</p>
+          <p class="mb-4">Margherita mit Büffelmozzarella und Basilikum</p>
+          <div class="d-flex align-items-center gap-3">
+            <span class="mf-body-strong">12,50 €</span>
+            <button type="button" class="btn btn-primary ms-auto">In den Warenkorb</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="col-md-4">
+      <article class="card h-100">
+        <div class="card-body p-4">
+          <h2 class="mf-heading-s mb-1">Sushi Ehrenfeld</h2>
+          <p class="mf-caption text-body-secondary mb-4">35–45 Min · kostenlose Lieferung</p>
+          <p class="mb-4">Lachs-Avocado-Roll, 8 Stück</p>
+          <div class="d-flex align-items-center gap-3">
+            <span class="mf-body-strong">9,90 €</span>
+            <button type="button" class="btn btn-outline-secondary ms-auto">Details</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="col-md-4">
+      <form class="card h-100" onsubmit="return false">
+        <div class="card-body p-4">
+          <h2 class="mf-heading-s mb-4">Lieferadresse</h2>
+          <label class="form-label mf-label" for="street">Straße und Hausnummer</label>
+          <input class="form-control mb-3" id="street" value="Venloer Str. 12">
+          <label class="form-label mf-label" for="time">Lieferzeit</label>
+          <select class="form-select mb-3" id="time"><option>So schnell wie möglich</option><option>18:30</option></select>
+          <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" id="contactless" checked>
+            <label class="form-check-label" for="contactless">Kontaktlos liefern</label>
+          </div>
+          <button class="btn btn-primary w-100">Bestellen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="alert alert-success mb-3" role="status">Deine Pizza ist unterwegs. Noch etwa 20 Minuten.</div>
+  <div class="alert alert-danger mb-12" role="alert">Das hat nicht geklappt. Prüf bitte deine Adresse.</div>
+
+  <p class="mb-0">Spacing check: <span class="d-inline-block bg-primary p-1"></span> p-1 <span class="d-inline-block bg-primary p-4"></span> p-4 <span class="d-inline-block bg-primary p-12"></span> p-12 · <a href="#">ein Textlink</a></p>
+</main>
+<script src="../dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>

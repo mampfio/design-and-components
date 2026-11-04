@@ -1,0 +1,113 @@
+# Builds the Mampfio design system as a WebJar and an npm package.
+# - Every push to main, every pull request and manual runs: build and keep the files as a workflow artifact.
+# - A tag "design-system-v<version>": build, check the tag against the Maven version, publish a GitHub release.
+# The design-system- prefix keeps releases apart from the workshop's step-NN tags.
+name: Design system
+
+on:
+  push:
+    branches: [main]
+    tags: ["design-system-v*"]
+    paths: # ignored for tag pushes, so a release tag always builds
+      - "components/**"
+      - ".github/workflows/design-system.yml"
+      - "mise.toml"
+  pull_request:
+    paths:
+      - "components/**"
+      - ".github/workflows/design-system.yml"
+      - "mise.toml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: components
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Java and Node come from mise.toml at the repo root, the same versions as on a laptop.
+      # Maven brings its own Node for the build (frontend-maven-plugin, see pom.xml); mise's Node runs npm pack.
+      - uses: jdx/mise-action@8418fedb1110381a0d3ba51a7a415d7c1b884550 # v5.2.2
+        with:
+          working_directory: .
+
+      # Maven itself (downloaded by mvnw) and the plugins; mise-action caches only Java and Node.
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.m2/wrapper
+          key: maven-${{ runner.os }}-${{ hashFiles('components/pom.xml', 'components/.mvn/wrapper/maven-wrapper.properties') }}
+          restore-keys: maven-${{ runner.os }}-
+
+      - name: Build the WebJar
+        run: ./mvnw --batch-mode --no-transfer-progress package
+
+      - name: Read the version Maven built
+        id: version
+        run: |
+          version=$(sed -n 's/^mampfio-design-system\.version=//p' target/classes/META-INF/resources/webjars-locator.properties)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Built version $version"
+
+      - name: Check the release tag matches the Maven version
+        if: startsWith(github.ref, 'refs/tags/design-system-v')
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          expected="${GITHUB_REF_NAME#design-system-v}"
+          if [ "$expected" != "$VERSION" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME expects version $expected, but pom.xml says $VERSION."
+            exit 1
+          fi
+
+      - name: Build the npm package
+        run: node scripts/pack-npm.mjs
+
+      - name: Write checksums
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        working-directory: components/target
+        run: sha256sum "mampfio-design-system-$VERSION.jar" "mampfio-design-system-$VERSION.tgz" > SHA256SUMS
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: mampfio-design-system-${{ steps.version.outputs.version }}
+          path: |
+            components/target/mampfio-design-system-${{ steps.version.outputs.version }}.jar
+            components/target/mampfio-design-system-${{ steps.version.outputs.version }}.tgz
+            components/target/SHA256SUMS
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/design-system-v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: mampfio-design-system-${{ needs.build.outputs.version }}
+          path: release
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --title "Mampfio design system $VERSION" \
+            --generate-notes

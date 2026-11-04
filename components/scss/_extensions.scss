@@ -1,0 +1,51 @@
+// Extensions: the few things Bootstrap 5's variables can't express.
+// Every rule here sets Bootstrap's own documented component custom properties (--bs-*)
+// from design-system tokens. No selectors from Bootstrap's internals, no !important.
+
+// Bootstrap 5 compiles button colours from $primary at build time, so they can't follow
+// dark mode on their own. The design system has a separate dark action colour.
+.btn-primary {
+  --bs-btn-color: var(--on-action);
+  --bs-btn-bg: var(--action);
+  --bs-btn-border-color: var(--action);
+  --bs-btn-hover-color: var(--on-action);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--action) 85%, var(--ink));
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--action) 85%, var(--ink));
+  --bs-btn-active-color: var(--on-action);
+  --bs-btn-active-bg: color-mix(in srgb, var(--action) 75%, var(--ink));
+  --bs-btn-active-border-color: color-mix(in srgb, var(--action) 75%, var(--ink));
+  --bs-btn-disabled-color: var(--on-action);
+  --bs-btn-disabled-bg: var(--action);
+  --bs-btn-disabled-border-color: var(--action);
+}
+
+// The focus ring follows the token in both modes. Bootstrap bakes the light value into
+// button and form focus shadows, so those get the token here too.
+:root {
+  --bs-focus-ring-color: var(--focus);
+}
+
+.btn:focus-visible,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 var(--bs-focus-ring-width) var(--focus);
+}
+
+// Cards carry the design system's only shadow level.
+.card {
+  --bs-card-bg: var(--surface-raised);
+  box-shadow: var(--shadow-card);
+}
+
+// Secondary buttons use control-border and ink, so they stay readable in both modes.
+.btn-outline-secondary {
+  --bs-btn-color: var(--ink);
+  --bs-btn-border-color: var(--control-border);
+  --bs-btn-hover-color: var(--surface);
+  --bs-btn-hover-bg: var(--ink);
+  --bs-btn-hover-border-color: var(--ink);
+  --bs-btn-active-color: var(--surface);
+  --bs-btn-active-bg: var(--ink);
+  --bs-btn-active-border-color: var(--ink);
+}

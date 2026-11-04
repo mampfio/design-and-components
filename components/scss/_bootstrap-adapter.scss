@@ -1,0 +1,88 @@
+// Bootstrap adapter: the only place where Bootstrap learns about Mampfio.
+//
+// Rules, enforced by scripts/check-bootstrap-overrides.mjs:
+// - Every line assigns a Bootstrap variable that exists with !default in the pinned version.
+// - Values come from $mampfio-* tokens, var(--token) or plain numbers. No raw colours here.
+// - Nothing else is overridden. If Mampfio has no opinion, Bootstrap's default stays.
+//
+// Sass needs real colours where Bootstrap mixes them (theme colours, link colours).
+// Everything Bootstrap passes through untouched points at a CSS custom property,
+// so it follows the light/dark token values at runtime.
+
+// Colour mode: follow the operating system, like the design system does.
+$color-mode-type: media-query;
+
+// Theme colours. Mampfio has no "info" role, so info is neutral ink on purpose.
+$primary:   $mampfio-action-light;
+$secondary: $mampfio-ink-muted-light;
+$success:   $mampfio-success-light;
+$info:      $mampfio-ink-light;
+$warning:   $mampfio-cheese-light;
+$danger:    $mampfio-error-light;
+$light:     $mampfio-surface-sunken-light;
+$dark:      $mampfio-ink-light;
+
+// Text on theme colours: Bootstrap picks whichever of these two passes 4.5:1.
+$color-contrast-light: $mampfio-on-action-light;
+$color-contrast-dark:  $mampfio-ink-light;
+
+// Body, light.
+$body-bg:              $mampfio-surface-light;
+$body-color:           $mampfio-ink-light;
+$body-emphasis-color:  $mampfio-ink-light;
+$body-secondary-color: $mampfio-ink-muted-light;
+$body-secondary-bg:    $mampfio-surface-sunken-light;
+$body-tertiary-bg:     $mampfio-surface-sunken-light;
+$border-color:         $mampfio-line-light;
+$link-color:           $mampfio-link-light;
+
+// Body, dark.
+$body-bg-dark:              $mampfio-surface-dark;
+$body-color-dark:           $mampfio-ink-dark;
+$body-emphasis-color-dark:  $mampfio-ink-dark;
+$body-secondary-color-dark: $mampfio-ink-muted-dark;
+$body-secondary-bg-dark:    $mampfio-surface-sunken-dark;
+$body-tertiary-bg-dark:     $mampfio-surface-sunken-dark;
+$border-color-dark:         $mampfio-line-dark;
+$link-color-dark:           $mampfio-link-dark;
+
+// Type.
+$font-family-sans-serif: $mampfio-font-sans;
+$headings-font-family:   $mampfio-font-display;
+$headings-font-weight:   800;
+$btn-font-weight: 700;
+
+// Shape. Buttons are rounder than inputs; cards are the roundest.
+$border-radius:        $mampfio-radius-s;
+$border-radius-sm:     $mampfio-radius-s;
+$border-radius-lg:     $mampfio-radius-l;
+$border-radius-pill:   $mampfio-radius-pill;
+$btn-border-radius:    $mampfio-radius-m;
+$btn-border-radius-sm: $mampfio-radius-m;
+$btn-border-radius-lg: $mampfio-radius-m;
+$card-border-radius:   $mampfio-radius-l;
+$card-border-color:    var(--line);
+$badge-border-radius:  $mampfio-radius-s;
+
+// Form controls need control-border, not the decorative line colour (3:1 rule).
+$input-border-color: var(--control-border);
+
+// Focus ring: solid and 3 px, as the brand book asks.
+$focus-ring-width:   3px;
+$focus-ring-opacity: 1;
+$focus-ring-color:   $mampfio-focus-light;
+
+// Spacing: utility steps are named after the token steps, so .p-4 is space-4 (16 px)
+// and .mb-12 is space-12 (48 px). Bootstrap's .p-5 does not exist here.
+$spacer: $mampfio-space-4;
+$spacers: (
+  0: 0,
+  1: $mampfio-space-1,
+  2: $mampfio-space-2,
+  3: $mampfio-space-3,
+  4: $mampfio-space-4,
+  6: $mampfio-space-6,
+  8: $mampfio-space-8,
+  12: $mampfio-space-12,
+  16: $mampfio-space-16,
+);

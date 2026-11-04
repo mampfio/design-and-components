@@ -1,4 +1,6 @@
-# Renders design/ (the Mampfio design system) as a static site and publishes it to GitHub Pages.
+# Renders design/ (the Mampfio design system) and the component docs in site/components/ as a static
+# site and publishes it to GitHub Pages. The component examples use the WebJar's own CSS, so the
+# WebJar's npm build runs first (no Maven needed for that).
 # Repository settings → Pages → Source must be "GitHub Actions".
 name: Design site
 
@@ -8,7 +10,7 @@ on:
     paths:
       - "design/**"
       - "site/**"
-      - "components/assets/fonts/**"
+      - "components/**"
       - ".github/workflows/design-site.yml"
   workflow_dispatch:
 
@@ -33,6 +35,12 @@ jobs:
 
       # Node from mise.toml at the repo root, as in the design-system workflow.
       - uses: jdx/mise-action@8418fedb1110381a0d3ba51a7a415d7c1b884550 # v5.2.2
+
+      - name: Build the WebJar CSS
+        working-directory: components
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
 
       - name: Build the site
         run: |

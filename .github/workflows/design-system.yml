@@ -12,11 +12,13 @@ on:
       - "components/**"
       - ".github/workflows/design-system.yml"
       - "mise.toml"
+      - "design/**"
   pull_request:
     paths:
       - "components/**"
       - ".github/workflows/design-system.yml"
       - "mise.toml"
+      - "design/**"
   workflow_dispatch:
 
 permissions:

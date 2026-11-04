@@ -1,9 +1,10 @@
 // Turns the design system's tokens.json into two Sass partials and one plain CSS file.
-// tokens.json is exported from the Mampfio design system and is the only source of values.
+// design/tokens.json at the repo root is exported from the Mampfio design system and is the only source of values.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
-const tokens = JSON.parse(readFileSync("tokens/tokens.json", "utf8"));
-const HEADER = "// GENERATED from tokens/tokens.json by scripts/generate-tokens.mjs. Do not edit.\n";
+const SOURCE = "../design/tokens.json";
+const tokens = JSON.parse(readFileSync(SOURCE, "utf8"));
+const HEADER = "// GENERATED from design/tokens.json by scripts/generate-tokens.mjs. Do not edit.\n";
 
 // Font files shipped in assets/fonts. tokens.json names the families; this maps them to files.
 const FONT_FACES = [
@@ -41,17 +42,18 @@ const light = [], dark = [];
 for (const t of tokens.color.tokens) {
   const v = themed(t.value);
   light.push(`  --${t.name}: ${v.light};`);
-  if (v.dark !== v.light) dark.push(`    --${t.name}: ${v.dark};`);
+  if (v.dark !== v.light) dark.push(`  --${t.name}: ${v.dark};`);
 }
 for (const [key, stack] of Object.entries(tokens.type.families)) light.push(`  --font-${key}: ${stack};`);
 for (const group of ["spacing", "radius"]) for (const t of tokens[group].tokens) light.push(`  --${t.name}: ${t.value};`);
 for (const t of tokens.shadow.tokens) {
   const v = themed(t.value);
   light.push(`  --${t.name}: ${v.light};`);
-  if (v.dark !== v.light) dark.push(`    --${t.name}: ${v.dark};`);
+  if (v.dark !== v.light) dark.push(`  --${t.name}: ${v.dark};`);
 }
-css.push(`:root {\n  color-scheme: light dark;\n${light.join("\n")}\n}`);
-css.push(`@media (prefers-color-scheme: dark) {\n  :root {\n${dark.join("\n")}\n  }\n}`);
+// Themes switch with data-theme, as in design/tokens.css. Without the attribute the page is light.
+css.push(`:root, [data-theme="light"] {\n  color-scheme: light;\n${light.join("\n")}\n}`);
+css.push(`[data-theme="dark"] {\n  color-scheme: dark;\n${dark.join("\n")}\n}`);
 for (const g of tokens.type.groups) {
   for (const s of g.styles) {
     const decl = [

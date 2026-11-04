@@ -1,0 +1,54 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mampfio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&amp;family=Nunito+Sans:wght@400;600;700&amp;display=swap">
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--surface); color:var(--ink); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
+  .art svg { display:block; width:520px; height:288px; }
+  .berry { fill:var(--brand-berry); }
+  .cheese { fill:var(--cheese); }
+  .deep { fill:var(--ink); }
+  .tint { fill:var(--line); }
+  .pep { fill:var(--pepperoni); }
+  .blk { rx:var(--radius-l); }
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
+  .name { margin:0; font-family:var(--font-display); font-size:104px; line-height:.9; font-weight:800; letter-spacing:-.02em; color:var(--ink); }
+  .tag { margin:var(--space-2) 0 0 4px; font-size:14px; line-height:20px; color:var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 520 288" width="520" height="288">
+<!--
+  blocks      brand-berry 256×232 bled off the top (the face of the logo, largest) · cheese 160×224 bled off the right · ink 256 wide bled off the bottom · line 64×224 pill as the tint — ≈41% of 960×288
+  arrangement one tall berry slab with satellites: tint pill left, ink under it, cheese right; space-4 gutters
+  pattern     discs from the literal motif in the logo (pepperoni on the slice) and "Mampfio ist rund": pepperoni discs r=space-2 on a space-8 offset grid, only on cheese, 18 units
+  scales      sides in space-4 multiples; gutters space-4; pitch space-8; corners radius-l; tint pill rx = half its 64 width
+-->
+<rect class="tint" x="16" y="32" width="64" height="224" rx="32"/>
+<rect class="berry blk" x="96" y="-24" width="256" height="232" rx="24"/>
+<rect class="deep blk" x="96" y="224" width="256" height="96" rx="24"/>
+<rect class="cheese blk" x="368" y="32" width="160" height="224" rx="24"/>
+<circle class="pep" cx="388" cy="56" r="8"/><circle class="pep" cx="420" cy="56" r="8"/><circle class="pep" cx="452" cy="56" r="8"/>
+<circle class="pep" cx="404" cy="88" r="8"/><circle class="pep" cx="436" cy="88" r="8"/><circle class="pep" cx="468" cy="88" r="8"/>
+<circle class="pep" cx="388" cy="120" r="8"/><circle class="pep" cx="420" cy="120" r="8"/><circle class="pep" cx="452" cy="120" r="8"/>
+<circle class="pep" cx="404" cy="152" r="8"/><circle class="pep" cx="436" cy="152" r="8"/><circle class="pep" cx="468" cy="152" r="8"/>
+<circle class="pep" cx="388" cy="184" r="8"/><circle class="pep" cx="420" cy="184" r="8"/><circle class="pep" cx="452" cy="184" r="8"/>
+<circle class="pep" cx="404" cy="216" r="8"/><circle class="pep" cx="436" cy="216" r="8"/><circle class="pep" cx="468" cy="216" r="8"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Mampfio</h1>
+<p class="tag">Food should be fun, starting with the order.</p>
+</div>
+</div>
+<script></script>
+</body>
+</html>

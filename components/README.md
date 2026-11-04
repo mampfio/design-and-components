@@ -1,11 +1,11 @@
-# Mampfio design system (WebJar)
+# Mampfio design system
 
-This module packages the Mampfio design system as a Java WebJar. The design system is the product; Bootstrap 5.3.8 is an implementation detail inside it. SCS consume `mampfio-design-system` and never depend on Bootstrap directly.
+This module packages the Mampfio design system. It's a customised version of Bootstrap 5
 
 ## How it is layered
 
 ```
-tokens/tokens.json              exported from the Mampfio design system, the only source of values
+../design/tokens.json           exported from the Mampfio design system (Claude), the only source of values
         │  scripts/generate-tokens.mjs
         ▼
 scss/_tokens.generated.scss     $mampfio-* Sass variables (no CSS output)
@@ -21,7 +21,12 @@ dist/css/mampfio.css            one stylesheet for SCS that use Bootstrap markup
 dist/css/mampfio-tokens.css     tokens, fonts and type only, for pages and web components without Bootstrap
 ```
 
-The dependency points one way. Tokens know nothing about Bootstrap. The adapter is the only file that knows both, like an anti-corruption layer.
+The dependency points one way. Tokens know nothing about Bootstrap. The adapter is the only file that knows both, like an anti-corruption layer. [`scss/README.md`](scss/README.md) explains how the overlay works and where a change belongs.
+
+
+## Distribution
+
+You can either consume these components via WebJar or as an NPM package.
 
 ## What the WebJar contains
 
@@ -33,8 +38,8 @@ Under `META-INF/resources/webjars/mampfio-design-system/<version>/`:
 | `css/mampfio-tokens.css` | Custom properties, fonts and `.mf-*` type styles without Bootstrap |
 | `js/bootstrap.bundle.min.js` | Bootstrap's JavaScript bundle, re-exported unchanged |
 | `fonts/` | Baloo 2 (800) and Nunito Sans (400, 600, 700), Latin subsets |
-| `logos/` | The five logo SVGs from the design system |
-| `tokens.json` | The token source, for tools |
+| `logos/` | The five logo SVGs, copied from `design/assets/Logos/` |
+| `tokens.json` | The token source from `design/`, for tools |
 | `licenses/` | Bootstrap MIT licence, font OFL licences |
 
 `META-INF/resources/webjars-locator.properties` registers the WebJar with `webjars-locator-lite`, so version-free URLs work.
@@ -94,17 +99,18 @@ The check also fails when someone writes a raw colour into the adapter. Values b
 
 ## Updating tokens
 
-Export `tokens.json` from the Mampfio design system, replace `tokens/tokens.json`, and run `npm run build`. Token names are the contract: renaming a token breaks the adapter build on purpose.
+`design/` at the repo root is the source of truth for tokens and logos. Export the Mampfio design system into `design/`, then run `npm run build`. Never edit tokens or logos inside `components/`; fonts are the exception and live in `assets/fonts/`, because the design system names the families but doesn't ship the files. Token names are the contract: renaming a token breaks the adapter build on purpose.
 
 ## Deliberate deviations from stock Bootstrap
 
 - **Spacing utilities follow token steps:** `.p-4` is `space-4` (16 px) and `.mb-12` is `space-12` (48 px). Steps 5, 7 and so on don't exist.
 - **There is no info colour:** `info` maps to neutral ink, because Mampfio has no info role.
 - **Warning is cheese:** use `.text-bg-warning` for offer badges.
-- **Colour mode follows the OS:** `$color-mode-type` is `media-query`, as in the design system. `data-bs-theme` toggles are not supported.
+- **Colour mode is a `data-theme` toggle, as in the design system:** set `data-theme="dark"` or `data-theme="light"` on `<html>` (or any subtree). Without the attribute a page is light, whatever the OS prefers. SCS never set `data-bs-theme`; `scss/_color-mode.scss` points Bootstrap at `data-theme`.
 
 ## Known limits
 
+- The toggle state is the SCS's problem, not the design system's. Every SCS has to read the same preference (a cookie on the shared domain, for example), or the theme flips when a user crosses from one system to the next.
 - Bootstrap 5 compiles theme colours at build time. Utilities such as `.bg-primary` and `.text-bg-success` keep their light values in dark mode. Primary and outline-secondary buttons and focus rings are corrected in `_extensions.scss`.
 - Bootstrap 5.3 uses Sass `@import`, which Dart Sass deprecates. The build silences those warnings and pins Sass 1.x. Sass 3 will remove `@import`, so Bootstrap 5 has a hard end of life here.
 - Bootstrap 6 (alpha since October 2026) moves to `@use` and token maps. The migration should mostly be a rewrite of `_bootstrap-adapter.scss`; tokens and extensions stay.

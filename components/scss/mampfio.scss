@@ -3,6 +3,49 @@
 
 @import "tokens.generated";          // 1. Design-system values as Sass variables (no CSS output)
 @import "bootstrap-adapter";         // 2. Hand them to Bootstrap through its !default variables
-@import "bootstrap/scss/bootstrap";  // 3. Stock Bootstrap, never edited, never copied
+
+// 3. Stock Bootstrap, never edited, never copied. The partials are listed one by one, in the order of
+//    bootstrap/scss/bootstrap.scss, only so that step 3b fits in. check:bootstrap fails if the lists differ.
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "color-mode";                // 3b. Retarget Bootstrap's color-mode mixin to [data-theme]
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/accordion";
+@import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/pagination";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/list-group";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/popover";
+@import "bootstrap/scss/carousel";
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/placeholders";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/utilities/api";
+
 @import "design-system.generated";   // 4. Fonts, custom properties and type styles
 @import "extensions";                // 5. The few gaps variables can't close

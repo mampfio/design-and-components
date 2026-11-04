@@ -9,8 +9,7 @@
 // Everything Bootstrap passes through untouched points at a CSS custom property,
 // so it follows the light/dark token values at runtime.
 
-// Colour mode: follow the operating system, like the design system does.
-$color-mode-type: media-query;
+// Colour mode: Bootstrap's default ($color-mode-type: data) stays. _color-mode.scss points it at data-theme.
 
 // Theme colours. Mampfio has no "info" role, so info is neutral ink on purpose.
 $primary:   $mampfio-action-light;

@@ -1,0 +1,12 @@
+// Colour mode: the design system switches themes with data-theme="light|dark" (see design/tokens.css).
+// Bootstrap 5.3 hard-codes data-bs-theme in its color-mode mixin. This file redefines that mixin,
+// so everything Bootstrap themes through it (root variables, form controls, accordion, close button,
+// navbar toggler, carousel) follows data-theme instead. SCS set one attribute and never learn Bootstrap's.
+//
+// It must be imported after Bootstrap's mixins and before Bootstrap's root, which is why mampfio.scss
+// imports Bootstrap's partials one by one. scripts/check-bootstrap-overrides.mjs checks that list.
+@mixin color-mode($mode: light, $root: false) {
+  [data-theme="#{$mode}"] {
+    @content;
+  }
+}

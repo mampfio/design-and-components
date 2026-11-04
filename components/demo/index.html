@@ -1,19 +1,22 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mampfio design system – Bootstrap check</title>
 <link rel="stylesheet" href="../dist/css/mampfio.css">
+<style>
+  /* Demo only: show the logo that fits the current theme. */
+  [data-theme="dark"] .logo-light, [data-theme="light"] .logo-dark { display: none; }
+</style>
 </head>
 <body>
 <header class="border-bottom">
   <div class="container py-4 d-flex align-items-center gap-4">
-    <picture>
-      <source srcset="../dist/logos/mampfio-lockup-reversed.svg" media="(prefers-color-scheme: dark)">
-      <img src="../dist/logos/mampfio-lockup.svg" alt="Mampfio" height="40">
-    </picture>
+    <img class="logo-light" src="../dist/logos/mampfio-lockup.svg" alt="Mampfio" height="40">
+    <img class="logo-dark" src="../dist/logos/mampfio-lockup-reversed.svg" alt="Mampfio" height="40">
     <span class="badge text-bg-warning ms-auto">Neu in Köln</span>
+    <button type="button" class="btn btn-outline-secondary" id="theme-toggle" aria-pressed="false">Dunkel</button>
   </div>
 </header>
 
@@ -72,5 +75,15 @@
   <p class="mb-0">Spacing check: <span class="d-inline-block bg-primary p-1"></span> p-1 <span class="d-inline-block bg-primary p-4"></span> p-4 <span class="d-inline-block bg-primary p-12"></span> p-12 · <a href="#">ein Textlink</a></p>
 </main>
 <script src="../dist/js/bootstrap.bundle.min.js" defer></script>
+<script>
+  // Demo only: flips data-theme on <html>. Real SCS need a shared preference, see the README.
+  const toggle = document.getElementById("theme-toggle");
+  toggle.addEventListener("click", () => {
+    const dark = document.documentElement.dataset.theme !== "dark";
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    toggle.setAttribute("aria-pressed", String(dark));
+    toggle.textContent = dark ? "Hell" : "Dunkel";
+  });
+</script>
 </body>
 </html>

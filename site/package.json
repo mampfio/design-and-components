@@ -1,0 +1,13 @@
+{
+  "name": "mampfio-design-site",
+  "private": true,
+  "description": "Static HTML of the Mampfio design system in design/, for GitHub Pages.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "marked": "18.1.1"
+  }
+}

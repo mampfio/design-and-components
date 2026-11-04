@@ -1,12 +1,8 @@
 // Colour mode: the design system switches themes with data-theme="light|dark" (see design/tokens.css).
-// Bootstrap 5.3 hard-codes data-bs-theme in its color-mode mixin. This file redefines that mixin,
-// so everything Bootstrap themes through it (root variables, form controls, accordion, close button,
-// navbar toggler, carousel) follows data-theme instead. SCS set one attribute and never learn Bootstrap's.
-//
-// It must be imported after Bootstrap's mixins and before Bootstrap's root, which is why mampfio.scss
-// imports Bootstrap's partials one by one. scripts/check-bootstrap-overrides.mjs checks that list.
-@mixin color-mode($mode: light, $root: false) {
-  [data-theme="#{$mode}"] {
-    @content;
-  }
-}
+// Bootstrap 5.3 themes with data-bs-theme, partly through its color-mode mixin and partly with
+// hard-coded selectors (:root, [data-bs-theme="light"] holds all light root variables).
+// @extend gives every selector that contains [data-bs-theme=…] a twin with [data-theme=…],
+// so nested themes work in both directions. SCS set data-theme and never learn Bootstrap's attribute.
+// scripts/check-theme.mjs fails the build if a compiled data-bs-theme selector has no twin.
+[data-theme="light"] { @extend [data-bs-theme="light"]; }
+[data-theme="dark"] { @extend [data-bs-theme="dark"]; }

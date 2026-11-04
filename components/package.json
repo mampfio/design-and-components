@@ -12,7 +12,8 @@
     "css": "sass --load-path=node_modules --quiet-deps --silence-deprecation=import --no-source-map scss/mampfio.scss dist/css/mampfio.css",
     "css:min": "sass --load-path=node_modules --quiet-deps --silence-deprecation=import --style=compressed --no-source-map scss/mampfio.scss dist/css/mampfio.min.css",
     "copy": "node scripts/copy-assets.mjs",
-    "build": "npm run tokens && npm run check:bootstrap && npm run css && npm run css:min && npm run copy"
+    "build": "npm run tokens && npm run check:bootstrap && npm run css && npm run css:min && npm run check:theme && npm run copy",
+    "check:theme": "node scripts/check-theme.mjs"
   },
   "devDependencies": {
     "bootstrap": "5.3.8",

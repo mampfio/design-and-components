@@ -14,9 +14,19 @@
   --bs-btn-active-color: var(--on-action);
   --bs-btn-active-bg: color-mix(in srgb, var(--action) 75%, var(--ink));
   --bs-btn-active-border-color: color-mix(in srgb, var(--action) 75%, var(--ink));
-  --bs-btn-disabled-color: var(--on-action);
-  --bs-btn-disabled-bg: var(--action);
-  --bs-btn-disabled-border-color: var(--action);
+}
+
+// Disabled buttons drop the brand colour instead of fading it. Bootstrap's default (the enabled
+// colours at 65 % opacity) left a disabled primary button looking like a pale primary button.
+// The design system has no disabled role yet, so this composes existing tokens: ink-muted text
+// (at least 5.9:1 on every surface), a sunken fill and the decorative line as border. Same look for
+// both variants, so "disabled" means one thing on every screen.
+.btn-primary,
+.btn-outline-secondary {
+  --bs-btn-disabled-opacity: 1;
+  --bs-btn-disabled-color: var(--ink-muted);
+  --bs-btn-disabled-bg: var(--surface-sunken);
+  --bs-btn-disabled-border-color: var(--line);
 }
 
 // The focus ring follows the token in both modes. Bootstrap bakes the light value into

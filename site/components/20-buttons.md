@@ -3,10 +3,24 @@
 Mampfio uses two button styles: primary for the one main action of a screen, and outline secondary for everything else.
 
 ```html example
-<button type="button" class="btn btn-primary">In den Warenkorb</button>
-<button type="button" class="btn btn-outline-secondary">Details</button>
-<button type="button" class="btn btn-primary" disabled>Bestellen</button>
+<div class="d-flex flex-wrap gap-3">
+  <button type="button" class="btn btn-primary">In den Warenkorb</button>
+  <button type="button" class="btn btn-outline-secondary">Details</button>
+</div>
 ```
+
+## Disabled
+
+A disabled button loses the brand colour: muted text on a sunken fill, the same for both styles. It doesn't fade, so it can't be mistaken for an enabled button.
+
+```html example
+<div class="d-flex flex-wrap gap-3">
+  <button type="button" class="btn btn-primary" disabled>Bestellen</button>
+  <button type="button" class="btn btn-outline-secondary" disabled>Details</button>
+</div>
+```
+
+Prefer an enabled button with a clear message over a disabled one. "Bestellen" that stays disabled until the form is valid doesn't tell anyone what's missing; an enabled button that shows the errors does. Disable a button only when the reason is visible right next to it, for example "Mindestbestellwert 15 € noch nicht erreicht".
 
 ## Rules
 

@@ -25,12 +25,10 @@ $primary: $blue !default;
 | --- | --- | --- | --- |
 | 1 | `_tokens.generated.scss` | no | Mampfio tokens |
 | 2 | `_bootstrap-adapter.scss` | no | tokens and Bootstrap variable names |
-| 3 | Bootstrap's partials, one by one | yes | Bootstrap only |
-| 3b | `_color-mode.scss`, between Bootstrap's `mixins` and `root` | no | Bootstrap's mixin name |
+| 3 | `bootstrap/scss/bootstrap` | yes | Bootstrap only |
+| 3b | `_color-mode.scss` | no output of its own; extends Bootstrap's selectors | Bootstrap's `data-bs-theme` attribute |
 | 4 | `_design-system.generated.scss` | yes | Mampfio tokens |
 | 5 | `_extensions.scss` | yes | tokens and Bootstrap's `--bs-*` properties |
-
-Step 3 lists Bootstrap's partials in the order of `bootstrap/scss/bootstrap.scss` instead of importing that file, only so that step 3b fits in. It's still stock Bootstrap: nothing is copied or edited, and the check script fails if the two lists differ.
 
 Steps 1 and 4 are generated from `design/tokens.json` (repo root) by `scripts/generate-tokens.mjs`. Never edit them.
 
@@ -50,11 +48,18 @@ Rule of thumb: if Bootstrap computes with the variable, give it a `$mampfio-*` t
 
 The design system switches themes with `data-theme="light|dark"`, as `design/tokens.css` does. Without the attribute a page is light.
 
-Bootstrap 5.3 themes with `data-bs-theme`, and its `color-mode` mixin hard-codes that name. `_color-mode.scss` redefines the mixin after Bootstrap's `mixins` and before Bootstrap's `root`, so everything Bootstrap themes through it uses `[data-theme]`: the root variables, form selects and switches, the accordion, the close button, the navbar toggler and the carousel. The adapter fills the dark values from the `$mampfio-*-dark` tokens (`$body-bg-dark`, `$body-color-dark`, `$border-color-dark`, `$link-color-dark` and so on). The design system's own custom properties switch on the same attribute, in `_design-system.generated.scss`.
+Bootstrap 5.3 themes with `data-bs-theme`. Most of it goes through its `color-mode` mixin, but some selectors are hard-coded, among them `:root, [data-bs-theme="light"]`, which holds all light root variables. `_color-mode.scss` therefore doesn't touch the mixin. It uses Sass `@extend` on the attribute selectors:
 
-A few Bootstrap selectors name `data-bs-theme` directly, without the mixin: `:root, [data-bs-theme="light"]`, `.navbar[data-bs-theme="dark"]`, and light variants of the close button and carousel. They are Bootstrap's own per-element opt-ins. Mampfio pages don't use them; set `data-theme` instead.
+```scss
+[data-theme="light"] { @extend [data-bs-theme="light"]; }
+[data-theme="dark"]  { @extend [data-bs-theme="dark"]; }
+```
 
-The redefined mixin is the one place where the overlay depends on Bootstrap's internals rather than its variables. That's a deliberate trade: the alternative is that every SCS sets two attributes and so learns that Bootstrap exists.
+Every compiled selector that contains `[data-bs-theme=…]` gets a twin with `[data-theme=…]`: `[data-bs-theme=dark] .form-select, [data-theme=dark] .form-select`. Nesting works in both directions, a light card in a dark page as well as the reverse. The adapter fills the dark values from the `$mampfio-*-dark` tokens (`$body-bg-dark`, `$body-color-dark`, `$border-color-dark`, `$link-color-dark` and so on). The design system's own custom properties switch on the same attribute, in `_design-system.generated.scss`.
+
+`data-bs-theme` still works as a side effect. Mampfio pages don't use it.
+
+A first version redefined Bootstrap's `color-mode` mixin instead. It missed the hard-coded light root selector, so a `data-theme="light"` area inside a dark page kept the dark theme's cream text on a white card. The extend covers selectors whether or not they come from the mixin, and `scripts/check-theme.mjs` proves it on the compiled CSS.
 
 Bootstrap 5 has no dark variant of theme colours. `$primary` is compiled once, with the light value. That's why `_extensions.scss` exists.
 
@@ -72,13 +77,14 @@ An extension rule may only set `--bs-*` properties on Bootstrap's public compone
 
 `npm run check:bootstrap` (`scripts/check-bootstrap-overrides.mjs`) runs before every Sass compile. It fails the build when:
 
-1. `mampfio.scss` doesn't import exactly the partials of `bootstrap.scss`, in the same order, or Bootstrap's `color-mode` mixin changed its signature,
-2. the adapter assigns a variable that the installed Bootstrap doesn't declare with `!default` in `_variables.scss` or `_variables-dark.scss`, for example after Bootstrap renamed it, or
-3. the adapter contains a raw colour (`#…`, `rgb()`, `hsl()`). Values belong in `tokens.json`.
+1. the adapter assigns a variable that the installed Bootstrap doesn't declare with `!default` in `_variables.scss` or `_variables-dark.scss`, for example after Bootstrap renamed it, or
+2. the adapter contains a raw colour (`#…`, `rgb()`, `hsl()`). Values belong in `tokens.json`.
 
-Without check 2, a renamed variable would just stop working: Sass happily creates an unused variable, and the build stays green.
+Without check 1, a renamed variable would just stop working: Sass happily creates an unused variable, and the build stays green.
 
-What the check does **not** catch:
+`npm run check:theme` (`scripts/check-theme.mjs`) runs after the Sass compile. It fails when a compiled selector themes with `data-bs-theme` but has no `data-theme` twin.
+
+What the checks do **not** catch:
 
 - **Changed meaning.** Bootstrap keeps a variable's name but uses it somewhere new. Only the visual comparison in `demo/index.html` finds that.
 - **`--bs-*` properties in `_extensions.scss`.** The check reads only the adapter. If Bootstrap renames a component custom property, the extension rule becomes dead code, without an error.

@@ -1,5 +1,5 @@
 // Turns the design system's tokens.json into two Sass partials and one plain CSS file.
-// design/tokens.json at the repo root is exported from the Mampfio design system and is the only source of values.
+// design/tokens.json at the repo root is the Mampfio design system's only source of values.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
 const SOURCE = "../design/tokens.json";
@@ -32,7 +32,7 @@ for (const t of tokens.shadow.tokens) {
 }
 writeFileSync("scss/_tokens.generated.scss", sass.join("\n") + "\n");
 
-// 2. Design-system CSS: fonts, custom properties (same names as the design system's tokens.css),
+// 2. Design-system CSS: fonts, custom properties (--<token name>),
 //    and the type styles as mf-* classes. Emitted into mampfio.css and, alone, into mampfio-tokens.css.
 const css = [];
 for (const f of FONT_FACES) {
@@ -45,13 +45,17 @@ for (const t of tokens.color.tokens) {
   if (v.dark !== v.light) dark.push(`  --${t.name}: ${v.dark};`);
 }
 for (const [key, stack] of Object.entries(tokens.type.families)) light.push(`  --font-${key}: ${stack};`);
+// Type styles as font shorthands, for CSS that sets text without the .mf-* classes: font: var(--text-body).
+for (const g of tokens.type.groups) {
+  for (const s of g.styles) light.push(`  --text-${s.name}: ${s.fontWeight} ${s.fontSize}/${s.lineHeight} var(--font-${s.family ?? g.family});`);
+}
 for (const group of ["spacing", "radius"]) for (const t of tokens[group].tokens) light.push(`  --${t.name}: ${t.value};`);
 for (const t of tokens.shadow.tokens) {
   const v = themed(t.value);
   light.push(`  --${t.name}: ${v.light};`);
   if (v.dark !== v.light) dark.push(`  --${t.name}: ${v.dark};`);
 }
-// Themes switch with data-theme, as in design/tokens.css. Without the attribute the page is light.
+// Themes switch with data-theme. Without the attribute the page is light.
 css.push(`:root, [data-theme="light"] {\n  color-scheme: light;\n${light.join("\n")}\n}`);
 css.push(`[data-theme="dark"] {\n  color-scheme: dark;\n${dark.join("\n")}\n}`);
 for (const g of tokens.type.groups) {

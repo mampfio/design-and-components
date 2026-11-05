@@ -1,14 +1,17 @@
 // Builds a static HTML site of the Mampfio design system into site/_site/.
-// - design/ is the source of truth for the design pages; this script only renders it.
+// - design/ is the master for brand book, tokens and logos; this script only renders it.
+//   Tokens are styled with the WebJar's mampfio-tokens.css, generated from design/tokens.json,
+//   and the Tokens page is generated from the same file (tokens-page.mjs). No value lives here.
 // - site/components/*.md document the WebJar's Bootstrap components. Every ```html example block
 //   becomes a live example, rendered with the WebJar's own CSS from components/dist/.
 //   Run `npm run build` in components/ first.
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { Marked } from "marked";
+import { tokensPage } from "./tokens-page.mjs";
 
 const DESIGN = "../design";
 const WEBJAR = "../components/dist";
-const FONTS = "../components/assets/fonts";
 const DOCS = "components";
 const OUT = "_site";
 
@@ -17,18 +20,14 @@ if (!existsSync(`${WEBJAR}/css/mampfio.min.css`)) {
 }
 
 const read = (path) => readFileSync(`${DESIGN}/${path}`, "utf8");
-const meta = JSON.parse(read("design-system.json"));
-const LOGOS = JSON.parse(read("manifest.json")).assetGroups.find((g) => g.name === "Logos").order;
+const tokens = JSON.parse(read("tokens.json"));
+// The logo order is the order in which assets/Logos/README.md describes them.
+const LOGOS = [...new Set(read("assets/Logos/README.md").match(/mampfio-[a-z-]+\.svg/g))];
+if (LOGOS.length !== 5) throw new Error(`assets/Logos/README.md names ${LOGOS.length} logos, expected 5`);
+// Date of the last commit that touched design/. Needs the git history (fetch-depth: 0 in CI).
+let lastChange = "unknown";
+try { lastChange = execFileSync("git", ["log", "-1", "--format=%cs", "--", DESIGN], { encoding: "utf8" }).trim() || lastChange; } catch {}
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-
-// The design system's README ends with sections generated for agents that read the artifact
-// ("Consuming this system", "Index"). They name artifact paths and tools, so people don't need them.
-const forPeople = (markdown) =>
-  markdown.replace(/\n---\n+## Consuming this system[\s\S]*$/, "\n").replace(/<!--[\s\S]*?-->\n?/g, "");
-
-// Token tables list hex values. Put a swatch in front of each one.
-const swatches = (html) =>
-  html.replace(/<td>(#[0-9a-fA-F]{3,8})<\/td>/g, '<td><span class="swatch" style="background:$1"></span>$1</td>');
 
 // ---- Component pages ---------------------------------------------------------------------------
 
@@ -99,11 +98,10 @@ function logos() {
 
 const md = (text) => new Marked().parse(text);
 const TOP = [
-  { file: "index.html", title: "Overview", lang: "en", body: () => cover() + md(forPeople(read("README.md"))) },
-  { file: "tokens.html", title: "Tokens", lang: "en", body: () => swatches(md(forPeople(read("api/tokens.md")))) },
+  { file: "index.html", title: "Brand book", lang: "en", body: () => cover() + md(read("brand-book-en.md")) },
+  { file: "tokens.html", title: "Tokens", lang: "en", body: () => tokensPage(tokens) },
   { file: "logos.html", title: "Logos", lang: "en", body: logos },
   { file: "components.html", title: "Components", lang: "en", section: "components" },
-  { file: "markenhandbuch.html", title: "Markenhandbuch", lang: "de", body: () => md(read("brand-book-de.md")) },
 ];
 
 // ---- Layout ------------------------------------------------------------------------------------
@@ -115,9 +113,9 @@ function page({ title, lang, body, current }) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${title} · ${meta.title} design system</title>
+<title>${title} · ${tokens.name} design system</title>
 <link rel="icon" href="logos/mampfio-app-icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="webjar/css/mampfio-tokens.css">
 <link rel="stylesheet" href="site.css">
 <script>
   // Follow the stored choice, else the OS, before first paint. The design system itself only knows data-theme.
@@ -137,7 +135,7 @@ function page({ title, lang, body, current }) {
 <main>
 ${body()}
 </main>
-<footer>Rendered from <code>design/</code> and <code>site/components/</code> · design system last changed ${meta.lastChange?.at?.slice(0, 10) ?? "unknown"} · fonts under the SIL Open Font License (<a href="fonts/OFL-Baloo2.txt">Baloo 2</a>, <a href="fonts/OFL-NunitoSans.txt">Nunito Sans</a>) · Bootstrap is MIT-licensed (<a href="webjar/licenses/bootstrap-LICENSE.txt">licence</a>)</footer>
+<footer>Rendered from <code>design/</code> and <code>site/components/</code> · design system last changed ${lastChange} · fonts under the SIL Open Font License (<a href="webjar/licenses/OFL-Baloo2.txt">Baloo 2</a>, <a href="webjar/licenses/OFL-NunitoSans.txt">Nunito Sans</a>) · Bootstrap is MIT-licensed (<a href="webjar/licenses/bootstrap-LICENSE.txt">licence</a>)</footer>
 <script>
   const toggle = document.getElementById("theme-toggle");
   const frames = [...document.querySelectorAll("iframe")];
@@ -197,21 +195,15 @@ rmSync(OUT, { recursive: true, force: true });
 mkdirSync(`${OUT}/logos`, { recursive: true });
 mkdirSync(`${OUT}/examples`, { recursive: true });
 
-copyFileSync(`${DESIGN}/tokens.css`, `${OUT}/tokens.css`);
 copyFileSync("site.css", `${OUT}/site.css`);
-copyDir(FONTS, `${OUT}/fonts`);
 for (const name of LOGOS) copyFileSync(`${DESIGN}/assets/Logos/${name}`, `${OUT}/logos/${name}`);
 // The WebJar's CSS, JS, fonts and licences, exactly as SCS get them.
 copyDir(WEBJAR, `${OUT}/webjar`, (name) => !name.endsWith(".map"));
 
-// The cover card relies on the design system to inject tokens.css. On its own it needs a link.
-// It also loads Google Fonts; the site serves the same fonts itself, so no visitor data goes to Google.
-const fontFaces = readFileSync("site.css", "utf8").match(/^@font-face.*$/gm).join("\n");
-const coverHtml = read("components/Cover/preview.html")
-  .replace(/<!--[\s\S]*?-->\n?/, "")
-  .replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com[^>]*>\n?/, "")
-  .replace("<head>", `<head>\n<link rel="stylesheet" href="tokens.css">\n<style>\n${fontFaces}\n</style>`);
-if (coverHtml.includes("fonts.googleapis.com")) throw new Error("cover.html still loads Google Fonts");
+// The cover card gets its tokens and fonts from the WebJar, like every page here. The site makes
+// no third-party requests (no Google Fonts), and the build fails if the cover tries to.
+const coverHtml = read("components/Cover/preview.html").replace("<head>", '<head>\n<link rel="stylesheet" href="webjar/css/mampfio-tokens.css">');
+if (/https?:\/\//.test(coverHtml.replace(/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g, ""))) throw new Error("cover.html loads something from another site");
 writeFileSync(`${OUT}/cover.html`, coverHtml);
 
 const componentsTop = TOP.find((t) => t.section === "components");

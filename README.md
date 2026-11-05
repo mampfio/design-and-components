@@ -6,7 +6,7 @@ The Mampfio design system and the components built on it, for the SCS book and w
 
 | Folder | Content |
 | --- | --- |
-| [`design/`](design/) | The Mampfio design system, exported from Claude. The source of truth for tokens and logos. |
+| [`design/`](design/) | The master of the Mampfio design system: brand book, tokens and logos. Its [README](design/README.md) explains how to maintain the site. |
 | [`components/`](components/) | The design system as a Java WebJar, with Bootstrap 5 inside. See its [README](components/README.md). |
 | [`site/`](site/) | Renders `design/` and the component docs in `site/components/*.md` as the site above. Build `components/` with `npm run build` first, then `cd site && npm ci && npm run build` writes `site/_site/`. |
 

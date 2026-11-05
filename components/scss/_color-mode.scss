@@ -1,4 +1,4 @@
-// Colour mode: the design system switches themes with data-theme="light|dark" (see design/tokens.css).
+// Colour mode: the design system switches themes with data-theme="light|dark" (see scripts/generate-tokens.mjs).
 // Bootstrap 5.3 themes with data-bs-theme, partly through its color-mode mixin and partly with
 // hard-coded selectors (:root, [data-bs-theme="light"] holds all light root variables).
 // @extend gives every selector that contains [data-bs-theme=…] a twin with [data-theme=…],

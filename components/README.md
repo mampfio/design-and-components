@@ -5,7 +5,7 @@ This module packages the Mampfio design system. It's a customised version of Boo
 ## How it is layered
 
 ```
-../design/tokens.json           exported from the Mampfio design system (Claude), the only source of values
+../design/tokens.json           the design system's master, the only source of values
         │  scripts/generate-tokens.mjs
         ▼
 scss/_tokens.generated.scss     $mampfio-* Sass variables (no CSS output)
@@ -99,7 +99,7 @@ The check also fails when someone writes a raw colour into the adapter. Values b
 
 ## Updating tokens
 
-`design/` at the repo root is the source of truth for tokens and logos. Export the Mampfio design system into `design/`, then run `npm run build`. Never edit tokens or logos inside `components/`; fonts are the exception and live in `assets/fonts/`, because the design system names the families but doesn't ship the files. Token names are the contract: renaming a token breaks the adapter build on purpose.
+`design/` at the repo root is the master for tokens and logos. Edit `design/tokens.json`, then run `npm run build`. Never edit tokens or logos inside `components/`. Fonts are the exception: they live in `assets/fonts/`, because `tokens.json` names the families but the WebJar ships the files. Token names are the contract: renaming a token breaks the adapter build on purpose.
 
 ## Deliberate deviations from stock Bootstrap
 

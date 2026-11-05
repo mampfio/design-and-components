@@ -1,4 +1,4 @@
-# Brand book (English)
+# Mampfio brand book
 
 Mampfio is a fictional food delivery service: an aggregator for restaurants of every cuisine. The brand exists as the example company for the SCS book and workshop. This style guide applies to every interface in the example codebase, to slides and to mampfio.de.
 
@@ -6,7 +6,7 @@ The brand rests on one sentence: **Food should be fun, starting with the order.*
 
 ## Logo
 
-The logo combines the mark (face with pizza) and the wordmark "mampfio" set in lowercase Baloo 2 ExtraBold. The wordmark is drawn as outlines, so it renders correctly without a web font. All files are in the **Logos** asset group.
+The logo combines the mark (face with pizza) and the wordmark "mampfio" set in lowercase Baloo 2 ExtraBold. The wordmark is drawn as outlines, so it renders correctly without a web font. All files are in `design/assets/Logos/`.
 
 | File | Use |
 | --- | --- |

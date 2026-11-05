@@ -46,7 +46,7 @@ Rule of thumb: if Bootstrap computes with the variable, give it a `$mampfio-*` t
 
 ## Dark mode
 
-The design system switches themes with `data-theme="light|dark"`, as `design/tokens.css` does. Without the attribute a page is light.
+The design system switches themes with `data-theme="light|dark"`. Without the attribute a page is light.
 
 Bootstrap 5.3 themes with `data-bs-theme`. Most of it goes through its `color-mode` mixin, but some selectors are hard-coded, among them `:root, [data-bs-theme="light"]`, which holds all light root variables. `_color-mode.scss` therefore doesn't touch the mixin. It uses Sass `@extend` on the attribute selectors:
 
@@ -94,7 +94,7 @@ What the checks do **not** catch:
 
 | I want to… | Change |
 | --- | --- |
-| change a colour, font, radius or spacing value | the Mampfio design system, exported to `design/tokens.json`; never the SCSS |
+| change a colour, font, radius or spacing value | `design/tokens.json`; never the SCSS |
 | make a Bootstrap component use an existing token | `_bootstrap-adapter.scss`, if a `!default` variable exists for it |
 | fix a component that keeps its light colour in dark mode | `_extensions.scss`, through its `--bs-*` properties |
 | add a Mampfio-only style (`.mf-*`) | `tokens.json` type styles, or a new design-system partial, not the overlay |

@@ -42,6 +42,17 @@
   box-shadow: 0 0 0 var(--bs-focus-ring-width) var(--focus);
 }
 
+// Dialogs sit above the page like cards: surface-raised, not the page's surface.
+.modal {
+  --bs-modal-bg: var(--surface-raised);
+  --bs-modal-border-color: var(--line);
+}
+
+// A list group inside a card takes the card's ground instead of the page's.
+.card .list-group {
+  --bs-list-group-bg: transparent;
+}
+
 // Cards carry the design system's only shadow level.
 .card {
   --bs-card-bg: var(--surface-raised);

@@ -16,6 +16,8 @@ scss/_bootstrap-adapter.scss    THE overlay: Bootstrap !default variables ← Ma
 bootstrap/scss/bootstrap        stock Bootstrap from npm, never edited, never copied
         │
 scss/_extensions.scss           the few gaps Bootstrap 5 variables can't close (--bs-* only)
+        │
+scss/_parts.scss                design-system parts Bootstrap has no variant for (.mf-badge-count)
         ▼
 dist/css/mampfio.css            one stylesheet for SCS that use Bootstrap markup
 dist/css/mampfio-tokens.css     tokens, fonts and type only, for pages and web components without Bootstrap
@@ -29,6 +31,10 @@ The dependency points one way. Tokens know nothing about Bootstrap. The adapter 
 Every release ships the same build twice: as a WebJar and as an npm package, both as assets of a GitHub release. Everything for the SCS that consume them lives on the [components site](https://mampfio.github.io/design-and-components/components.html): installing, what's inside, usage, where Mampfio differs from Bootstrap and colour mode. Its sources are `site/components/*.md`. How to cut a release is under [Releasing](#releasing).
 
 The jar puts `dist/` under `META-INF/resources/webjars/mampfio-design-system/<version>/`. `src/main/resources/META-INF/resources/webjars-locator.properties`, filtered by Maven, registers the version with `webjars-locator-lite`, so version-free URLs work. `scripts/pack-npm.mjs` packs the same `dist/` as the npm package and takes the version from that file, so both never disagree.
+
+## Markup check
+
+`check/check-markup.mjs` ships in `dist/check/` and finds Bootstrap classes and attributes that don't work with Mampfio (spacing step 5, `.fs-*`, other button variants, `data-bs-theme` and so on). The site build runs it on every component page, so the docs never show what they forbid. When a rule on the site changes, change the check with it.
 
 ## Building
 

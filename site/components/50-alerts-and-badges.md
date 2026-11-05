@@ -18,7 +18,7 @@ Mampfio has two status roles: `success` and `error`. Use `.alert-success` and `.
 - Status is never conveyed by colour alone. The text has to work without the colour.
 - Every status message has its icon: `circle-check` for success, `circle-alert` for errors. The icon is decoration (`aria-hidden`); the text carries the message.
 - `.alert-warning` and `.alert-info` exist, but Mampfio has no such roles. Don't use them.
-- Known limit: in dark mode, alert backgrounds and borders are shades Bootstrap derives from the light status colours, not Mampfio tokens.
+- Known limit: alert backgrounds and borders keep their light shades in dark mode.
 
 ## Badges
 
@@ -30,5 +30,17 @@ Badges mark offers and news. They use `cheese` with `on-cheese` text, which is w
 <span class="badge text-bg-warning">Gratis Lieferung</span>
 ```
 
-- Use `.text-bg-warning` only. The other `.text-bg-*` classes stay light in dark mode.
-- A badge is a highlight, so at most one per card.
+- Use `.text-bg-warning` for offers and news. The other `.text-bg-*` classes stay light in dark mode.
+- An offer badge is a highlight, so at most one per card.
+
+### Count badges
+
+A count badge shows a number of items, such as the basket count. It uses `action` with `on-action` text: add `.mf-badge-count` to `.badge`. Its text is 13 px, the caption minimum.
+
+```html example
+<span class="badge mf-badge-count">3</span>
+<span class="badge mf-badge-count">12</span>
+```
+
+- Counts only. An offer is never a count badge, and a count is never cheese.
+- Add the unit as visually hidden text, so the number makes sense without the icon next to it: `3<span class="visually-hidden"> Artikel</span>`. See [Menu and basket](menu-and-basket.html).

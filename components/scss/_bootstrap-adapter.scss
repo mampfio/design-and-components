@@ -49,6 +49,8 @@ $link-color-dark:           $mampfio-link-dark;
 $font-family-sans-serif: $mampfio-font-sans;
 $headings-font-family:   $mampfio-font-display;
 $headings-font-weight:   800;
+// Baloo 2 never goes below 20 px. Bootstrap's h6 is 16 px, so it takes the smallest heading style.
+$h6-font-size:           $mampfio-text-heading-s-size;
 $btn-font-weight: 700;
 
 // Shape. Buttons are rounder than inputs; cards are the roundest.

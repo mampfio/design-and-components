@@ -47,4 +47,4 @@ Errors use `error`, always with text, never colour alone. Put the message under 
 - Every field has a visible label. Placeholders are examples, not labels.
 - Help text is `.mf-caption` with `.text-body-secondary`.
 - Error messages follow the tone of voice: short, friendly, no "Ups!", no exclamation marks.
-- Known limit: a checked checkbox or switch keeps the light `action` colour in dark mode, because Bootstrap compiles it at build time.
+- Known limit: a checked checkbox or switch keeps the light `action` colour in dark mode.

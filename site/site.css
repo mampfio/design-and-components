@@ -37,7 +37,7 @@ pre { background: var(--surface-sunken); padding: var(--space-4); border-radius:
 pre code { background: none; padding: 0; }
 
 table { border-collapse: collapse; width: 100%; margin: var(--space-4) 0; display: block; overflow-x: auto; }
-td > code:first-child { white-space: nowrap; }
+td > code:first-child, td:has(> .swatch) { white-space: nowrap; }
 th, td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
 th { font: var(--text-label); }
 .bar { display: inline-block; height: 12px; background: var(--action); border-radius: 2px; vertical-align: middle; }
@@ -47,6 +47,8 @@ th { font: var(--text-label); }
   border-radius: var(--radius-s); border: 1px solid var(--control-border);
 }
 
+.start-here { margin: 0 0 var(--space-8); padding: var(--space-4) var(--space-6); background: var(--surface-sunken); border-radius: var(--radius-l); }
+.start-here p { margin: 0; }
 .cover { display: block; width: 100%; height: 288px; border: 0; border-radius: var(--radius-l); box-shadow: var(--shadow-card); margin-bottom: var(--space-8); }
 
 .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-6); margin-top: var(--space-8); }

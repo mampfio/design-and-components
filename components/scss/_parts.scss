@@ -1,0 +1,12 @@
+// Design-system parts that Bootstrap has no variant for. Each one builds on a Bootstrap
+// component and adds an .mf-* class; values come from tokens only.
+
+// Count badge: a number of items, such as the basket count. Used with .badge.
+// Offers and news use .text-bg-warning (cheese) instead; the two never swap roles.
+.mf-badge-count {
+  --bs-badge-color: var(--on-action);
+  --bs-badge-font-size: 0.8125rem; // 13 px, the caption minimum
+  --bs-badge-border-radius: var(--radius-pill);
+  min-width: 1.75em;
+  background-color: var(--action);
+}

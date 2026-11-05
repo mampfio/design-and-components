@@ -1,12 +1,12 @@
 # Icons
 
-Mampfio uses [Lucide](https://lucide.dev) 1.61.0. The drawings are unchanged; the files carry an added provenance block (C2PA metadata), which the Component Library's sprite leaves out. Lucide draws stroke icons on a 24 px grid with a 2 px stroke and rounded ends, which is the brand book's icon style. Every file keeps its `@license` comment; `LICENSE` holds the full ISC and MIT texts (some icons come from Feather).
+Mampfio uses a selection of [Lucide](https://lucide.dev) icons: stroke icons on a 24 px grid with a 2 px stroke and rounded ends, the brand book's icon style.
 
 Icons draw in `currentColor`, so they take the text colour: `ink` on surfaces, `on-action` on primary buttons. Only the icons listed here are part of the design system. Each has one meaning; don't use an icon for something else.
 
 ## Ordering
 
-- `shopping-basket.svg`: Basket (Warenkorb), with the item count as a badge.
+- `shopping-basket.svg`: Basket (Warenkorb), with the item count as a count badge (`.mf-badge-count`).
 - `plus.svg`: Add one more of a dish.
 - `minus.svg`: Remove one of a dish.
 - `trash-2.svg`: Remove a dish from the basket.

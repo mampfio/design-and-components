@@ -6,9 +6,9 @@
 //   becomes a live example, rendered with the WebJar's own CSS from components/dist/.
 //   Run `npm run build` in components/ first.
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
 import { Marked } from "marked";
 import { tokensPage } from "./tokens-page.mjs";
+import { check } from "../components/check/check-markup.mjs";
 
 const DESIGN = "../design";
 const WEBJAR = "../components/dist";
@@ -24,9 +24,6 @@ const tokens = JSON.parse(read("tokens.json"));
 // The logo order is the order in which assets/Logos/README.md describes them.
 const LOGOS = [...new Set(read("assets/Logos/README.md").match(/mampfio-[a-z-]+\.svg/g))];
 if (LOGOS.length !== 6) throw new Error(`assets/Logos/README.md names ${LOGOS.length} logos, expected 6`);
-// Date of the last commit that touched design/. Needs the git history (fetch-depth: 0 in CI).
-let lastChange = "unknown";
-try { lastChange = execFileSync("git", ["log", "-1", "--format=%cs", "--", DESIGN], { encoding: "utf8" }).trim() || lastChange; } catch {}
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 // The WebJar's icon sprite. Pages and examples inline it, so <use href="#name"> works everywhere,
@@ -97,6 +94,8 @@ function componentBody(p) {
 // ---- Design pages ------------------------------------------------------------------------------
 
 const cover = () => `<iframe class="cover" src="cover.html" title="Mampfio cover" loading="lazy"></iframe>`;
+// Most visitors build a frontend, not a brand. Send them to the Components pages first.
+const startHere = () => `<aside class="start-here"><p><strong>Building a frontend for an SCS?</strong> Start with <a href="components.html">Components</a>: how to load the Component Library, the page layout and the rules for each part. Come back here for colour roles, type and tone of voice.</p></aside>`;
 
 function logos() {
   const notes = new Marked().parse(read("assets/Logos/README.md"));
@@ -104,7 +103,8 @@ function logos() {
     const ground = name.includes("reversed") ? "dark" : "light";
     return `<figure class="logo logo-${ground}"><img src="logos/${name}" alt="${name}"><figcaption><a href="logos/${name}" download>${name}</a></figcaption></figure>`;
   }).join("\n");
-  return `${notes}<div class="logos">${tiles}</div>`;
+  const url = `<p>In an SCS, load them from the Component Library: <code>/webjars/mampfio-design-system/logos/&lt;file&gt;</code>.</p>`;
+  return `${notes}${url}<div class="logos">${tiles}</div>`;
 }
 
 // The Icons page follows design/assets/Icons/README.md: its intro, then one grid per "## group",
@@ -126,13 +126,13 @@ function icons() {
       .join("");
     return `<h2>${escapeHtml(heading)}</h2><div class="icons">${tiles}</div>`;
   });
-  return SPRITE + new Marked().parse(intro) + grids.join("") + usage + `<p>Licence: <a href="webjar/licenses/lucide-LICENSE.txt">Lucide (ISC) and Feather (MIT)</a>.</p>`;
+  return SPRITE + new Marked().parse(intro) + grids.join("") + usage + `<p>Licence: <a href="webjar/licenses/lucide-LICENSE.txt">Lucide (ISC and MIT)</a>.</p>`;
 }
 
 const md = (text) => new Marked().parse(text);
 const TOP = [
   // The brand book links logos relative to design/, so it renders on GitHub too; the site serves them from logos/.
-  { file: "index.html", title: "Brand book", lang: "en", body: () => cover() + md(read("brand-book-en.md").replaceAll('src="assets/Logos/', 'src="logos/')) },
+  { file: "index.html", title: "Brand book", lang: "en", body: () => startHere() + cover() + md(read("brand-book-en.md").replaceAll('src="assets/Logos/', 'src="logos/')) },
   { file: "tokens.html", title: "Tokens", lang: "en", body: () => tokensPage(tokens) },
   { file: "logos.html", title: "Logos", lang: "en", body: logos },
   { file: "icons.html", title: "Icons", lang: "en", body: icons },
@@ -170,7 +170,7 @@ function page({ title, lang, body, current }) {
 <main>
 ${body()}
 </main>
-<footer>Rendered from <code>design/</code> and <code>site/components/</code> · design system last changed ${lastChange} · fonts under the SIL Open Font License (<a href="webjar/licenses/OFL-Baloo2.txt">Baloo 2</a>, <a href="webjar/licenses/OFL-NunitoSans.txt">Nunito Sans</a>) · icons by Lucide (<a href="webjar/licenses/lucide-LICENSE.txt">ISC and MIT</a>) · Bootstrap is MIT-licensed (<a href="webjar/licenses/bootstrap-LICENSE.txt">licence</a>)</footer>
+<footer>Fonts under the SIL Open Font License (<a href="webjar/licenses/OFL-Baloo2.txt">Baloo 2</a>, <a href="webjar/licenses/OFL-NunitoSans.txt">Nunito Sans</a>) · icons by Lucide (<a href="webjar/licenses/lucide-LICENSE.txt">ISC and MIT</a>) · Bootstrap is MIT-licensed (<a href="webjar/licenses/bootstrap-LICENSE.txt">licence</a>)</footer>
 <script>
   const toggle = document.getElementById("theme-toggle");
   const frames = [...document.querySelectorAll("iframe")];
@@ -231,6 +231,8 @@ mkdirSync(`${OUT}/logos`, { recursive: true });
 mkdirSync(`${OUT}/examples`, { recursive: true });
 
 copyFileSync("site.css", `${OUT}/site.css`);
+// Images the component examples use, such as a dish photo stand-in.
+copyDir("example-assets", `${OUT}/examples`);
 for (const name of LOGOS) copyFileSync(`${DESIGN}/assets/Logos/${name}`, `${OUT}/logos/${name}`);
 // The WebJar's CSS, JS, fonts and licences, exactly as SCS get them.
 copyDir(WEBJAR, `${OUT}/webjar`, (name) => !name.endsWith(".map"));
@@ -246,6 +248,9 @@ for (const p of TOP.filter((t) => !t.section)) writeFileSync(`${OUT}/${p.file}`,
 for (const p of componentPages) {
   writeFileSync(`${OUT}/${p.file}`, page({ title: p.title, lang: "en", body: () => componentBody(p), current: componentsTop }));
 }
+// The pages follow the rules they document: the Component Library's markup check runs on every page's code.
+const problems = componentPages.flatMap((p) => check(p.markdown).map((f) => `site/components/${p.slug}: line ${f.line}: ${f.what}: ${f.why}`));
+if (problems.length) throw new Error(`Component pages break the Mampfio rules:\n${problems.join("\n")}`);
 for (const e of examples) writeFileSync(`${OUT}/${e.file}`, exampleDocument(e.html));
 writeFileSync(`${OUT}/.nojekyll`, "");
 

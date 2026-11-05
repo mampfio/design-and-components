@@ -11,4 +11,5 @@ cpSync("assets/fonts/OFL-Baloo2.txt", "dist/licenses/OFL-Baloo2.txt");
 cpSync("assets/fonts/OFL-NunitoSans.txt", "dist/licenses/OFL-NunitoSans.txt");
 cpSync("../design/assets/Logos", "dist/logos", { recursive: true, filter: (p) => !p.endsWith(".md") });
 cpSync("../design/tokens.json", "dist/tokens.json");
+cpSync("check/check-markup.mjs", "dist/check/check-markup.mjs");
 console.log("assets copied to dist/");

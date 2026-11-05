@@ -23,6 +23,7 @@ for (const t of tokens.color.tokens) {
   sass.push(`$mampfio-${t.name}-light: ${v.light};`, `$mampfio-${t.name}-dark: ${v.dark};`);
 }
 for (const [key, stack] of Object.entries(tokens.type.families)) sass.push(`$mampfio-font-${key}: ${stack};`);
+for (const g of tokens.type.groups) for (const s of g.styles) sass.push(`$mampfio-text-${s.name}-size: ${s.fontSize};`);
 for (const group of ["spacing", "radius"]) {
   for (const t of tokens[group].tokens) sass.push(`$mampfio-${t.name}: ${t.value};`);
 }

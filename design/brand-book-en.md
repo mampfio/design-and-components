@@ -6,7 +6,7 @@ The brand rests on one sentence: **Food should be fun, starting with the order.*
 
 ## Logo
 
-The logo combines the mark (face with pizza) and the wordmark "mampfio" set in lowercase Baloo 2 ExtraBold. The wordmark is drawn as outlines, so it renders correctly without a web font. All files are in `design/assets/Logos/`.
+The logo combines the mark (face with pizza) and the wordmark "mampfio" set in lowercase Baloo 2 ExtraBold. The wordmark is drawn as outlines, so it renders correctly without a web font. Every SCS serves them from the Component Library under `/webjars/mampfio-design-system/logos/`.
 
 | Logo | File | Use |
 | --- | --- | --- |
@@ -42,7 +42,7 @@ Colours have roles. When you need a colour, look for the role, not the hue.
 
 ## Typography
 
-Two families, both from Google Fonts:
+Two families. Both ship with the Component Library (`fonts/`), so don't load them from Google Fonts or any other CDN:
 
 - **Baloo 2** (`display`) in ExtraBold for headings. It is round and good-natured, like the logo. Never use it for body text or below 20 px.
 - **Nunito Sans** (`sans`) for everything else. It is calm enough to keep menus readable.
@@ -81,4 +81,6 @@ Every text pairing in the tokens reaches at least 4.5:1 in both themes. The rati
 
 ## Open points
 
-- UI components such as button, restaurant card and basket are not included yet.
+- There is no token for disabled states yet. Disabled buttons combine `ink-muted`, `surface-sunken` and `line`.
+- Some Bootstrap parts keep their light colours in dark mode: checked checkboxes and switches, active pills and pagination, and alert backgrounds. The Colour mode page lists them.
+- Whether the logo may show food other than pizza is undecided.

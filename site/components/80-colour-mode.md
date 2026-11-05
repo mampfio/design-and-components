@@ -27,13 +27,49 @@ The attribute also works on a part of the page. Everything inside takes the othe
 
 ## Rules
 
-- **Set `data-theme`, never `data-bs-theme`.** Bootstrap's own attribute does nothing here. `scss/_color-mode.scss` points Bootstrap at `data-theme`.
-- **The preference belongs to the user, not to one SCS.** If Discovery shows dark and Ordering light, the theme flips at every boundary. All SCS have to read the same preference, for example a cookie on the shared domain, and render `data-theme` on the server, so the page doesn't flash.
+- **Set `data-theme`, never `data-bs-theme`.** With Bootstrap's attribute, Bootstrap's parts switch but the Mampfio tokens don't, so the page ends up half dark.
+- **The preference belongs to the user, not to one SCS.** If Discovery shows dark and Ordering light, the theme flips at every boundary. All SCS read the same cookie, below, and render `data-theme` on the server, so the page doesn't flash.
 - **Logos switch with the theme.** Use `mampfio-lockup.svg` on light and `mampfio-lockup-reversed.svg` on dark.
+
+## The theme cookie
+
+Every SCS follows this contract:
+
+| | |
+| --- | --- |
+| Name | `mampfio-theme` |
+| Values | `light` or `dark`. Missing or any other value means `light`. |
+| Domain | The domain all SCS share, so every SCS sees the same cookie |
+| Path | `/` |
+| Other attributes | `SameSite=Lax`, `Max-Age` one year, not `HttpOnly`, because the toggle sets it in the browser |
+
+On every request, the server reads the cookie and renders `<html data-theme="…">`. The toggle sets the cookie and switches the page without a reload. It shows `moon` on light pages and `sun` on dark ones:
+
+```html
+<button type="button" class="btn btn-outline-secondary d-inline-flex p-2" id="theme-toggle" aria-label="Dunkles Design">
+  <svg class="mf-icon mf-icon-sm" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#moon"></use></svg>
+</button>
+<script type="module">
+  const toggle = document.getElementById("theme-toggle");
+  const show = (theme) => {
+    toggle.setAttribute("aria-label", theme === "dark" ? "Helles Design" : "Dunkles Design");
+    toggle.querySelector("use").setAttribute("href", `/webjars/mampfio-design-system/icons/icons.svg#${theme === "dark" ? "sun" : "moon"}`);
+  };
+  show(document.documentElement.dataset.theme);
+  toggle.addEventListener("click", () => {
+    const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.cookie = `mampfio-theme=${theme}; Path=/; Max-Age=31536000; SameSite=Lax`;
+    document.documentElement.dataset.theme = theme;
+    show(theme);
+  });
+</script>
+```
+
+Without a `Domain` attribute, as above, the cookie belongs to the host that set it. When the SCS run on subdomains, add `Domain=` with the shared parent domain.
 
 ## What stays light in dark mode
 
-Bootstrap 5 compiles theme colours at build time. The Component Library corrects primary and outline secondary buttons, focus rings and cards. These keep their light colours:
+Primary and outline secondary buttons, focus rings, cards and dialogs follow the theme. These keep their light colours:
 
 - utilities such as `.bg-primary` and `.text-bg-success` (except `.text-bg-warning`, cheese is the same in both themes),
 - checked checkboxes, switches, active pills and active pagination items,

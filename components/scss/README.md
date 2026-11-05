@@ -29,6 +29,7 @@ $primary: $blue !default;
 | 3b | `_color-mode.scss` | no output of its own; extends Bootstrap's selectors | Bootstrap's `data-bs-theme` attribute |
 | 4 | `_design-system.generated.scss` | yes | Mampfio tokens |
 | 5 | `_extensions.scss` | yes | tokens and Bootstrap's `--bs-*` properties |
+| 6 | `_parts.scss` | yes | tokens; adds `.mf-*` parts on top of Bootstrap components |
 
 Steps 1 and 4 are generated from `design/tokens.json` (repo root) by `scripts/generate-tokens.mjs`. Never edit them.
 

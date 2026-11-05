@@ -9,10 +9,19 @@ const table = (head, rows) =>
     .join("")}</tbody></table>`;
 const code = (s) => `<code>${escapeHtml(s)}</code>`;
 
+// Tokens marked "ui": false belong to the logo and illustrations. They get their own table,
+// so nobody picks them from the UI tables.
+const forUi = (t) => t.ui !== false;
+
 export function tokensPage(tokens) {
+  const brandOnly = ["color", "radius"].flatMap((g) => tokens[g].tokens.filter((t) => !forUi(t)));
+  const brand = table(
+    ["Token", "Value", "Use"],
+    brandOnly.map((t) => [code(`--${t.name}`), typeof t.value === "string" && t.value.startsWith("#") ? swatch(t.value) : code(t.value), escapeHtml(t.usage ?? "")]),
+  );
   const colours = table(
     ["Token", "Light", "Dark", "Use"],
-    tokens.color.tokens.map((t) => {
+    tokens.color.tokens.filter(forUi).map((t) => {
       const v = themed(t.value);
       return [code(`--${t.name}`), swatch(v.light), swatch(v.dark), escapeHtml(t.usage ?? "")];
     }),
@@ -35,7 +44,7 @@ export function tokensPage(tokens) {
   const simple = (group, preview) =>
     table(
       ["Token", "Value", "", "Use"],
-      tokens[group].tokens.map((t) => [code(`--${t.name}`), code(t.value), preview(t), escapeHtml(t.usage ?? "")]),
+      tokens[group].tokens.filter(forUi).map((t) => [code(`--${t.name}`), code(t.value), preview(t), escapeHtml(t.usage ?? "")]),
     );
   const shadows = table(
     ["Token", "Light", "Dark", "Use"],
@@ -58,5 +67,8 @@ ${simple("spacing", (t) => `<span class="bar" style="width:${escapeHtml(t.value)
 <h2>Radius</h2>
 ${simple("radius", (t) => `<span class="corner" style="border-radius:${escapeHtml(t.value)}"></span>`)}
 <h2>Shadow</h2>
-${shadows}`;
+${shadows}
+<h2>Brand and illustration only</h2>
+<p>These come from the logo. They are not for interfaces: no text, backgrounds, borders or shapes in a UI.</p>
+${brand}`;
 }

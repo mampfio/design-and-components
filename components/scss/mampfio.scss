@@ -8,3 +8,4 @@
 @import "design-system.generated";   // 5. Fonts, custom properties and type styles
 @import "icons";                     // 5b. Size classes for the icon sprite
 @import "extensions";                // 6. The few gaps variables can't close
+@import "parts";                     // 7. Design-system parts Bootstrap has no variant for (.mf-*)

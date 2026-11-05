@@ -35,7 +35,7 @@ Every page is styled with the WebJar's `mampfio-tokens.css`, which `components/s
 - **A token value:** edit `tokens.json`. The WebJar's CSS, the component examples and the Tokens page all follow on the next build. Token names are a contract: renaming one breaks the WebJar build on purpose, because the Bootstrap adapter refers to it.
 - **A new token:** add it to `tokens.json` in the matching group, with a `usage` note. The Tokens page shows the note.
 - **A logo:** replace the SVG in `assets/Logos/` under the same name. Adding or renaming one means updating `assets/Logos/README.md`; the build expects exactly six.
-- **A new icon:** take it from Lucide 1.61.0, the version in use, so every icon has the same drawing style: `npm pack lucide-static@1.61.0`, then copy `package/icons/<name>.svg` into `assets/Icons/` and add a line with its meaning to `assets/Icons/README.md`. The WebJar build fails if a file isn't listed, or if an icon breaks the 24 px / 2 px / round rule. Moving to a newer Lucide version means replacing all icons and `LICENSE` at once.
+- **A new icon:** take it from Lucide 1.61.0, the version in use, so every icon has the same drawing style. The drawings stay unchanged; the files carry an added provenance block (C2PA metadata), which the WebJar's sprite leaves out. Every file keeps its `@license` comment; `LICENSE` holds the full ISC and MIT texts, because some Lucide icons come from Feather. To add one: `npm pack lucide-static@1.61.0`, then copy `package/icons/<name>.svg` into `assets/Icons/` and add a line with its meaning to `assets/Icons/README.md`. The WebJar build fails if a file isn't listed, or if an icon breaks the 24 px / 2 px / round rule. Moving to a newer Lucide version means replacing all icons and `LICENSE` at once.
 - **A component page:** edit or add a file in `site/components/`. The number prefix sets the order in the side navigation (`20-buttons.md` becomes `buttons.html`). A code block marked `` ```html example `` becomes a live example with its code underneath; a plain `` ```html `` block stays code only.
 
 Push to `main`. The workflow runs when anything in `design/`, `site/`, `components/` or the workflow itself changes, and can also be started by hand under **Actions → Design site → Run workflow**.
@@ -54,8 +54,8 @@ The workflow runs the same two builds, then deploys `site/_site/`. If the local 
 
 - The cover card loads nothing from other sites. The build fails if it links to another host, such as Google Fonts. The site's own pages only reference files inside `_site/`.
 - `assets/Logos/README.md` names exactly six logos.
+- The code on every component page passes the Component Library's markup check (`components/check/check-markup.mjs`).
 - Every icon is listed in `assets/Icons/README.md` and keeps the brand book's stroke style (checked by the WebJar build).
-- The footer shows the date of the last commit that touched `design/`.
 
 ## History
 

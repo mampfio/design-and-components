@@ -7,5 +7,6 @@ All logos are full-colour SVGs with fixed colours and no currentColor. The wordm
 - `mampfio-mark.svg`: the mark alone, at least 32 px tall.
 - `mampfio-app-icon.svg`: the mark on cream, corners `radius-l` (24 on 100).
 - `mampfio-wordmark.svg`: the wordmark alone in `ink`.
+- `mampfio-favicon.svg`: the mark simplified for 16 px browser tabs. No teeth or crumbs, one pepperoni, thicker strokes, drawn on a 16 × 16 grid.
 
 Clear space: a quarter of the mark's height. Never place on `brand-berry` or `action`.

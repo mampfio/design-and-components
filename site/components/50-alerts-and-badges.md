@@ -5,12 +5,18 @@
 Mampfio has two status roles: `success` and `error`. Use `.alert-success` and `.alert-danger`, with `role="status"` for confirmations and `role="alert"` for errors.
 
 ```html example
-<div class="alert alert-success mb-3" role="status">Deine Pizza ist unterwegs. Noch etwa 20 Minuten.</div>
-<div class="alert alert-danger mb-0" role="alert">Das hat nicht geklappt. Prüf bitte deine Adresse.</div>
+<div class="alert alert-success d-flex gap-3 align-items-start mb-3" role="status">
+  <svg class="mf-icon" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#circle-check"></use></svg>
+  <span>Deine Pizza ist unterwegs. Noch etwa 20 Minuten.</span>
+</div>
+<div class="alert alert-danger d-flex gap-3 align-items-start mb-0" role="alert">
+  <svg class="mf-icon" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#circle-alert"></use></svg>
+  <span>Das hat nicht geklappt. Prüf bitte deine Adresse.</span>
+</div>
 ```
 
 - Status is never conveyed by colour alone. The text has to work without the colour.
-- The design system asks for an icon with every status message. No icon set has been chosen yet, so the examples have none.
+- Every status message has its icon: `circle-check` for success, `circle-alert` for errors. The icon is decoration (`aria-hidden`); the text carries the message.
 - `.alert-warning` and `.alert-info` exist, but Mampfio has no such roles. Don't use them.
 - Known limit: in dark mode, alert backgrounds and borders are shades Bootstrap derives from the light status colours, not Mampfio tokens.
 

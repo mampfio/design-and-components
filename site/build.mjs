@@ -23,11 +23,17 @@ const read = (path) => readFileSync(`${DESIGN}/${path}`, "utf8");
 const tokens = JSON.parse(read("tokens.json"));
 // The logo order is the order in which assets/Logos/README.md describes them.
 const LOGOS = [...new Set(read("assets/Logos/README.md").match(/mampfio-[a-z-]+\.svg/g))];
-if (LOGOS.length !== 5) throw new Error(`assets/Logos/README.md names ${LOGOS.length} logos, expected 5`);
+if (LOGOS.length !== 6) throw new Error(`assets/Logos/README.md names ${LOGOS.length} logos, expected 6`);
 // Date of the last commit that touched design/. Needs the git history (fetch-depth: 0 in CI).
 let lastChange = "unknown";
 try { lastChange = execFileSync("git", ["log", "-1", "--format=%cs", "--", DESIGN], { encoding: "utf8" }).trim() || lastChange; } catch {}
 const escapeHtml = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+// The WebJar's icon sprite. Pages and examples inline it, so <use href="#name"> works everywhere,
+// also when the site is opened from disk, where browsers block <use> references to other files.
+const SPRITE = readFileSync(`${WEBJAR}/icons/icons.svg`, "utf8").replace(/<!--[\s\S]*?-->/g, "")
+  .replace("<svg ", '<svg style="display:none" aria-hidden="true" ');
+const SPRITE_URL = "/webjars/mampfio-design-system/icons/icons.svg";
 
 // ---- Component pages ---------------------------------------------------------------------------
 
@@ -49,7 +55,10 @@ function componentMarkdown(slug) {
   });
 }
 
-const exampleDocument = (html) => `<!doctype html>
+const exampleDocument = (source) => {
+  // Snippets show the URL an SCS uses; the example itself points at the inlined sprite.
+  const html = source.replaceAll(`${SPRITE_URL}#`, "#");
+  return `<!doctype html>
 <html lang="de" data-theme="light">
 <head>
 <meta charset="utf-8">
@@ -58,12 +67,14 @@ const exampleDocument = (html) => `<!doctype html>
 <style>html { background: var(--surface); } body { margin: 0; padding: var(--space-6); background: var(--surface); } a[href="#"] { cursor: default; }</style>
 </head>
 <body>
+${html.includes('href="#') ? SPRITE : ""}
 ${html}
 <script src="../webjar/js/bootstrap.bundle.min.js"></script>
 <script>for (const a of document.querySelectorAll('a[href="#"]')) a.addEventListener("click", (e) => e.preventDefault());</script>
 </body>
 </html>
 `;
+};
 
 const componentPages = readdirSync(DOCS)
   .filter((f) => f.endsWith(".md"))
@@ -96,11 +107,34 @@ function logos() {
   return `${notes}<div class="logos">${tiles}</div>`;
 }
 
+// The Icons page follows design/assets/Icons/README.md: its intro, then one grid per "## group",
+// each icon with the meaning the README gives it.
+function icons() {
+  const readme = read("assets/Icons/README.md");
+  const [intro, ...groups] = readme.split(/^## /m);
+  const usage = new Marked().parse(
+    "## Using an icon\n\nInside a link or button, the icon is decoration: hide it from screen readers and keep the text.\n\n```html\n" +
+      `<button type="button" class="btn btn-primary d-inline-flex align-items-center gap-2">\n  <svg class="mf-icon mf-icon-sm" aria-hidden="true"><use href="${SPRITE_URL}#shopping-basket"></use></svg>\n  In den Warenkorb\n</button>\n` +
+      "```\n\nAlone, an icon needs a name: `<svg class=\"mf-icon\" role=\"img\" aria-label=\"Warenkorb\">`. Use `.mf-icon` (24 px) on its own and `.mf-icon-sm` (20 px) in buttons and next to text.",
+  );
+  const grids = groups.map((g) => {
+    const [heading, ...lines] = g.split("\n");
+    const tiles = lines
+      .map((l) => l.match(/^- `([a-z0-9-]+)\.svg`: (.+)$/))
+      .filter(Boolean)
+      .map(([, name, use]) => `<figure class="icon-tile"><svg class="mf-icon" aria-hidden="true"><use href="#${name}"></use></svg><figcaption><code>${name}</code><span>${escapeHtml(use.replace(/\.$/, ""))}</span></figcaption></figure>`)
+      .join("");
+    return `<h2>${escapeHtml(heading)}</h2><div class="icons">${tiles}</div>`;
+  });
+  return SPRITE + new Marked().parse(intro) + grids.join("") + usage + `<p>Licence: <a href="webjar/licenses/lucide-LICENSE.txt">Lucide (ISC) and Feather (MIT)</a>.</p>`;
+}
+
 const md = (text) => new Marked().parse(text);
 const TOP = [
   { file: "index.html", title: "Brand book", lang: "en", body: () => cover() + md(read("brand-book-en.md")) },
   { file: "tokens.html", title: "Tokens", lang: "en", body: () => tokensPage(tokens) },
   { file: "logos.html", title: "Logos", lang: "en", body: logos },
+  { file: "icons.html", title: "Icons", lang: "en", body: icons },
   { file: "components.html", title: "Components", lang: "en", section: "components" },
 ];
 
@@ -114,7 +148,7 @@ function page({ title, lang, body, current }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title} · ${tokens.name} design system</title>
-<link rel="icon" href="logos/mampfio-app-icon.svg" type="image/svg+xml">
+<link rel="icon" href="logos/mampfio-favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="webjar/css/mampfio-tokens.css">
 <link rel="stylesheet" href="site.css">
 <script>
@@ -135,7 +169,7 @@ function page({ title, lang, body, current }) {
 <main>
 ${body()}
 </main>
-<footer>Rendered from <code>design/</code> and <code>site/components/</code> · design system last changed ${lastChange} · fonts under the SIL Open Font License (<a href="webjar/licenses/OFL-Baloo2.txt">Baloo 2</a>, <a href="webjar/licenses/OFL-NunitoSans.txt">Nunito Sans</a>) · Bootstrap is MIT-licensed (<a href="webjar/licenses/bootstrap-LICENSE.txt">licence</a>)</footer>
+<footer>Rendered from <code>design/</code> and <code>site/components/</code> · design system last changed ${lastChange} · fonts under the SIL Open Font License (<a href="webjar/licenses/OFL-Baloo2.txt">Baloo 2</a>, <a href="webjar/licenses/OFL-NunitoSans.txt">Nunito Sans</a>) · icons by Lucide (<a href="webjar/licenses/lucide-LICENSE.txt">ISC and MIT</a>) · Bootstrap is MIT-licensed (<a href="webjar/licenses/bootstrap-LICENSE.txt">licence</a>)</footer>
 <script>
   const toggle = document.getElementById("theme-toggle");
   const frames = [...document.querySelectorAll("iframe")];

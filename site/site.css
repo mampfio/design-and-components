@@ -78,6 +78,12 @@ main:has(.with-side) { max-width: 1200px; }
   border: 1px solid var(--control-border); border-radius: var(--radius-s); padding: var(--space-1) var(--space-3); cursor: pointer;
 }
 
+.icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-4); margin: var(--space-4) 0 var(--space-8); }
+.icon-tile { margin: 0; display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-l); color: var(--ink); }
+.icon-tile svg { width: 32px; height: 32px; flex-shrink: 0; }
+.icon-tile figcaption { display: flex; flex-direction: column; gap: var(--space-1); font: var(--text-caption); color: var(--ink-muted); }
+.icon-tile code { background: none; padding: 0; color: var(--ink); }
+
 footer { max-width: 960px; margin: 0 auto; padding: var(--space-8); font: var(--text-caption); color: var(--ink-muted); border-top: 1px solid var(--line); }
 footer a { color: inherit; }
 

@@ -43,3 +43,25 @@ Buttons are rounder than inputs (`radius-m`). Sizes keep the radius.
 ```
 
 On a phone, the main action of a form or the basket spans the full width with `.w-100`.
+
+## With an icon
+
+An icon goes before the label, at 20 px (`.mf-icon-sm`). Buttons with an icon only need an `aria-label`.
+
+```html example
+<div class="d-flex flex-wrap gap-3 align-items-center">
+  <button type="button" class="btn btn-primary d-inline-flex align-items-center gap-2">
+    <svg class="mf-icon mf-icon-sm" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#shopping-basket"></use></svg>
+    In den Warenkorb
+  </button>
+  <button type="button" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+    <svg class="mf-icon mf-icon-sm" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#phone"></use></svg>
+    Restaurant anrufen
+  </button>
+  <button type="button" class="btn btn-outline-secondary d-inline-flex align-items-center p-2" aria-label="Aus dem Warenkorb entfernen">
+    <svg class="mf-icon mf-icon-sm" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#trash-2"></use></svg>
+  </button>
+</div>
+```
+
+See the [Icons](icons.html) page for the full set and what each icon means.

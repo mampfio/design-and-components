@@ -6,4 +6,5 @@
 @import "bootstrap/scss/bootstrap";  // 3. Stock Bootstrap, never edited, never copied
 @import "color-mode";                // 4. Bootstrap's data-bs-theme selectors also answer to data-theme
 @import "design-system.generated";   // 5. Fonts, custom properties and type styles
+@import "icons";                     // 5b. Size classes for the icon sprite
 @import "extensions";                // 6. The few gaps variables can't close

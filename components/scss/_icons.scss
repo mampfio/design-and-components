@@ -1,0 +1,16 @@
+// Icons from the design system's sprite (design/assets/Icons/, Lucide):
+//   <svg class="mf-icon" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#bike"></use></svg>
+// They draw in currentColor, so they take the text colour of their surroundings.
+.mf-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+// Inside buttons and next to body text, 20 px keeps the icon on the text's line height.
+.mf-icon-sm {
+  width: 20px;
+  height: 20px;
+}

@@ -1,6 +1,6 @@
 # Mampfio brand book
 
-Mampfio is a fictional food delivery service: an aggregator for restaurants of every cuisine. The brand exists as the example company for the SCS book and workshop. This style guide applies to every interface in the example codebase, to slides and to mampfio.de.
+Mampfio is a fictional food delivery service: an aggregator for restaurants of every cuisine. The brand exists as an example company for the teaching purposes. This style guide applies to every interface in the example codebases, to slides and to mampfio.de.
 
 The brand rests on one sentence: **Food should be fun, starting with the order.** That is why the logo is a face biting happily into a pizza rather than an abstract shape.
 
@@ -15,10 +15,11 @@ The logo combines the mark (face with pizza) and the wordmark "mampfio" set in l
 | `mampfio-mark.svg` | When the name already appears nearby: navigation, loading screen, social avatar. |
 | `mampfio-app-icon.svg` | App icon, and favicon from 32 px up. |
 | `mampfio-wordmark.svg` | Only where the mark doesn't fit, such as a text footer. |
+| `mampfio-favicon.svg` | Browser tab favicon, and anywhere the mark is shown below 32 px. |
 
 **Clear space:** Keep a quarter of the mark's height free on every side. At a mark height of 120 px that is 30 px.
 
-**Minimum sizes:** The lockup is at least 120 px wide on screen and 30 mm in print. The mark is at least 32 px tall. Below that, the teeth, crumbs and pepperoni disappear. A simplified 16 px favicon is still missing.
+**Minimum sizes:** The lockup is at least 120 px wide on screen and 30 mm in print. The mark is at least 32 px tall. Below that, the teeth, crumbs and pepperoni disappear, so use `mampfio-favicon.svg` instead: the same face and slice, simplified for 16 px.
 
 **Don't:**
 
@@ -60,7 +61,7 @@ Food is drawn flat, in the logo colours, with rounded ends and no gradients. Whe
 
 ## Iconography
 
-Icons are stroke icons on a 24 px grid, with a 2 px stroke and rounded ends, in `ink` or `on-action`. No icon set has been chosen yet.
+Icons are stroke icons on a 24 px grid, with a 2 px stroke and rounded ends, in `ink` or `on-action`. Mampfio uses a selection from [Lucide](https://lucide.dev), listed with their meanings in `design/assets/Icons/README.md`. Each icon has one meaning. An icon never stands in for the logo, and status icons always come with text.
 
 ## Tone of voice
 
@@ -80,7 +81,4 @@ Every text pairing in the tokens reaches at least 4.5:1 in both themes. The rati
 
 ## Open points
 
-- The DPMA trademark search for "Mampfio" is outstanding. Until then this logo is a working draft.
-- A 16 px favicon variant is missing.
-- No icon set has been chosen yet.
 - UI components such as button, restaurant card and basket are not included yet.

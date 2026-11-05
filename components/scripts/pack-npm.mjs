@@ -26,6 +26,7 @@ writeFileSync(`${stage}/package.json`, JSON.stringify({
     "./js/*": "./js/*",
     "./fonts/*": "./fonts/*",
     "./logos/*": "./logos/*",
+    "./icons/*": "./icons/*",
     "./tokens.json": "./tokens.json",
   },
 }, null, 2) + "\n");

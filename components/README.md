@@ -24,9 +24,38 @@ dist/css/mampfio-tokens.css     tokens, fonts and type only, for pages and web c
 The dependency points one way. Tokens know nothing about Bootstrap. The adapter is the only file that knows both, like an anti-corruption layer. [`scss/README.md`](scss/README.md) explains how the overlay works and where a change belongs.
 
 
-## Distribution
+## Installing
 
-You can either consume these components via WebJar or as an NPM package.
+Every release ships the same build twice: as a WebJar for Maven and as an npm package. Both are assets of a [GitHub release](https://github.com/mampfio/design-and-components/releases); there is no Maven or npm registry. Set `VERSION` to a released version.
+
+### As a WebJar (Maven)
+
+Download the jar and install it into your local Maven repository:
+
+```sh
+VERSION=0.1.0
+curl -fL -o /tmp/mampfio-design-system.jar \
+  "https://github.com/mampfio/design-and-components/releases/download/design-system-v$VERSION/mampfio-design-system-$VERSION.jar" && \
+mvn install:install-file \
+  -Dfile=/tmp/mampfio-design-system.jar \
+  -DgroupId=de.mampfio \
+  -DartifactId=mampfio-design-system \
+  -Dversion=$VERSION \
+  -Dpackaging=jar
+```
+
+`-f` makes curl fail on a 404 instead of saving GitHub's error page as a jar; `-L` follows the redirect to the download. Maven generates a minimal POM, which is enough, because the WebJar has no dependencies. Then add the dependency as shown in [Using it in a Spring Boot SCS](#using-it-in-a-spring-boot-scs).
+
+The jar lives only in the local `~/.m2`, so every laptop and every CI job has to run this once per version.
+
+### As an npm package
+
+```sh
+VERSION=0.1.0
+npm install "https://github.com/mampfio/design-and-components/releases/download/design-system-v$VERSION/mampfio-design-system-$VERSION.tgz"
+```
+
+npm writes the URL into `package.json` and the checksum into `package-lock.json`, so `npm ci` installs exactly this build. The files land in `node_modules/mampfio-design-system/` with the WebJar's layout, without the `META-INF` prefix: `css/mampfio.css`, `js/bootstrap.bundle.min.js`, `fonts/`, `logos/`, `icons/icons.svg` and `tokens.json`.
 
 ## What the WebJar contains
 
@@ -38,9 +67,10 @@ Under `META-INF/resources/webjars/mampfio-design-system/<version>/`:
 | `css/mampfio-tokens.css` | Custom properties, fonts and `.mf-*` type styles without Bootstrap |
 | `js/bootstrap.bundle.min.js` | Bootstrap's JavaScript bundle, re-exported unchanged |
 | `fonts/` | Baloo 2 (800) and Nunito Sans (400, 600, 700), Latin subsets |
-| `logos/` | The five logo SVGs, copied from `design/assets/Logos/` |
+| `logos/` | The six logo SVGs, including the favicon, copied from `design/assets/Logos/` |
+| `icons/icons.svg` | The design system's icons as one SVG sprite, built from `design/assets/Icons/` (Lucide) |
 | `tokens.json` | The token source from `design/`, for tools |
-| `licenses/` | Bootstrap MIT licence, font OFL licences |
+| `licenses/` | Bootstrap MIT licence, font OFL licences, Lucide ISC and MIT licence |
 
 `META-INF/resources/webjars-locator.properties` registers the WebJar with `webjars-locator-lite`, so version-free URLs work.
 
@@ -50,7 +80,7 @@ Under `META-INF/resources/webjars/mampfio-design-system/<version>/`:
 <dependency>
   <groupId>de.mampfio</groupId>
   <artifactId>mampfio-design-system</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version> <!-- the VERSION you installed -->
 </dependency>
 <dependency>
   <groupId>org.webjars</groupId>
@@ -66,6 +96,14 @@ The same lines work in a Pebble (Discovery) or JTE (Ordering) layout:
 ```
 
 Web components in Shadow DOM inherit the `--token` custom properties from the page, so they can use `var(--action)` without loading Bootstrap.
+
+Icons come from one sprite and take the text colour:
+
+```html
+<svg class="mf-icon" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#bike"></use></svg>
+```
+
+`<use>` only loads sprites from the page's own origin. That's fine here, because every SCS serves the WebJar itself. A web component on a page from another origin has to fetch the icon and inline it.
 
 ## Building
 

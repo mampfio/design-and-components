@@ -6,6 +6,7 @@
 //   becomes a live example, rendered with the WebJar's own CSS from components/dist/.
 //   Run `npm run build` in components/ first.
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { Marked } from "marked";
 import { tokensPage } from "./tokens-page.mjs";
 import { check } from "../components/check/check-markup.mjs";
@@ -18,6 +19,13 @@ const OUT = "_site";
 if (!existsSync(`${WEBJAR}/css/mampfio.min.css`)) {
   throw new Error(`${WEBJAR}/css/mampfio.min.css is missing. Run npm run build in components/ first.`);
 }
+
+// The install snippets on the Components page show the newest released version: the highest
+// design-system-v* tag. CI fetches all tags, and the release job starts a site rebuild.
+const LATEST_RELEASE = execFileSync("git", ["tag", "--list", "design-system-v*", "--sort=-v:refname"], { encoding: "utf8" })
+  .split("\n")[0]
+  .replace("design-system-v", "");
+if (!LATEST_RELEASE) throw new Error("No design-system-v* tag found. Run git fetch --tags.");
 
 const read = (path) => readFileSync(`${DESIGN}/${path}`, "utf8");
 const tokens = JSON.parse(read("tokens.json"));
@@ -78,7 +86,7 @@ const componentPages = readdirSync(DOCS)
   .sort()
   .map((f) => {
     const slug = f.replace(/^\d+-/, "").replace(/\.md$/, "");
-    const markdown = readFileSync(`${DOCS}/${f}`, "utf8");
+    const markdown = readFileSync(`${DOCS}/${f}`, "utf8").replaceAll("{{latest-release}}", LATEST_RELEASE);
     const title = markdown.match(/^# (.+)$/m)[1];
     return { slug, title, file: slug === "index" ? "components.html" : `${slug}.html`, markdown };
   });

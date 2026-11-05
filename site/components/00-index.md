@@ -6,14 +6,14 @@ Every example is rendered live with the same `mampfio.min.css` the Component Lib
 
 ## Installing
 
-Every release ships the Component Library twice: as a WebJar for Maven and as an npm package. Both are assets of a [GitHub release](https://github.com/mampfio/design-and-components/releases); there is no Maven or npm registry. Set `VERSION` to a released version.
+Every release ships the Component Library twice: as a WebJar for Maven and as an npm package. Both are assets of a [GitHub release](https://github.com/mampfio/design-and-components/releases); there is no Maven or npm registry. The snippets use the latest release, [{{latest-release}}](https://github.com/mampfio/design-and-components/releases/tag/design-system-v{{latest-release}}). To install an older one, change `VERSION`.
 
 ### As a WebJar (Maven)
 
 Download the jar and install it into your local Maven repository:
 
 ```sh
-VERSION=0.1.0
+VERSION={{latest-release}}
 curl -fL -o /tmp/mampfio-design-system.jar \
   "https://github.com/mampfio/design-and-components/releases/download/design-system-v$VERSION/mampfio-design-system-$VERSION.jar" && \
 mvn install:install-file \
@@ -32,7 +32,7 @@ Then add the dependency. `webjars-locator-lite` makes the version-free URLs belo
 <dependency>
   <groupId>de.mampfio</groupId>
   <artifactId>mampfio-design-system</artifactId>
-  <version>0.1.0</version> <!-- the VERSION you installed -->
+  <version>{{latest-release}}</version> <!-- the VERSION you installed -->
 </dependency>
 <dependency>
   <groupId>org.webjars</groupId>
@@ -43,7 +43,7 @@ Then add the dependency. `webjars-locator-lite` makes the version-free URLs belo
 ### As an npm package
 
 ```sh
-VERSION=0.1.0
+VERSION={{latest-release}}
 npm install "https://github.com/mampfio/design-and-components/releases/download/design-system-v$VERSION/mampfio-design-system-$VERSION.tgz"
 ```
 

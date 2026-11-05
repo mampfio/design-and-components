@@ -54,6 +54,7 @@ The workflow runs the same two builds, then deploys `site/_site/`. If the local 
 
 - The cover card loads nothing from other sites. The build fails if it links to another host, such as Google Fonts. The site's own pages only reference files inside `_site/`.
 - `assets/Logos/README.md` names exactly six logos.
+- The install snippets on the Components page show the newest `design-system-v*` tag. The build fails if the checkout has no such tag; the release job starts a site rebuild.
 - The code on every component page passes the Component Library's markup check (`components/check/check-markup.mjs`).
 - Every icon is listed in `assets/Icons/README.md` and keeps the brand book's stroke style (checked by the WebJar build).
 

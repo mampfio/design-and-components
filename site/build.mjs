@@ -131,7 +131,8 @@ function icons() {
 
 const md = (text) => new Marked().parse(text);
 const TOP = [
-  { file: "index.html", title: "Brand book", lang: "en", body: () => cover() + md(read("brand-book-en.md")) },
+  // The brand book links logos relative to design/, so it renders on GitHub too; the site serves them from logos/.
+  { file: "index.html", title: "Brand book", lang: "en", body: () => cover() + md(read("brand-book-en.md").replaceAll('src="assets/Logos/', 'src="logos/')) },
   { file: "tokens.html", title: "Tokens", lang: "en", body: () => tokensPage(tokens) },
   { file: "logos.html", title: "Logos", lang: "en", body: logos },
   { file: "icons.html", title: "Icons", lang: "en", body: icons },

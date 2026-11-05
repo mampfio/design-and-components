@@ -57,6 +57,9 @@ th { font: var(--text-label); }
 .logo figcaption { font: var(--text-caption); margin-top: var(--space-4); }
 .logo-light figcaption a { color: #b0245a; }
 .logo-dark figcaption a { color: #f06a98; }
+/* Logos in the brand book's table: the same fixed grounds as the tiles. */
+td img[src^="logos/"] { display: block; height: 32px; width: auto; max-width: none; padding: var(--space-2); border-radius: var(--radius-m); background: #fff4e8; }
+td img[src$="-reversed.svg"] { background: #22101c; }
 
 /* Components section: side navigation, live examples, code with copy button. */
 main:has(.with-side) { max-width: 1200px; }

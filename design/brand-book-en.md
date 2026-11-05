@@ -8,14 +8,14 @@ The brand rests on one sentence: **Food should be fun, starting with the order.*
 
 The logo combines the mark (face with pizza) and the wordmark "mampfio" set in lowercase Baloo 2 ExtraBold. The wordmark is drawn as outlines, so it renders correctly without a web font. All files are in `design/assets/Logos/`.
 
-| File | Use |
-| --- | --- |
-| `mampfio-lockup.svg` | Default. On `surface`, `surface-raised` or `surface-sunken`. |
-| `mampfio-lockup-reversed.svg` | On dark grounds: `surface` in the dark theme, or photos with a dark area. |
-| `mampfio-mark.svg` | When the name already appears nearby: navigation, loading screen, social avatar. |
-| `mampfio-app-icon.svg` | App icon, and favicon from 32 px up. |
-| `mampfio-wordmark.svg` | Only where the mark doesn't fit, such as a text footer. |
-| `mampfio-favicon.svg` | Browser tab favicon, and anywhere the mark is shown below 32 px. |
+| Logo | File | Use |
+| --- | --- | --- |
+| <img src="assets/Logos/mampfio-lockup.svg" alt="Mampfio lockup" height="32"> | `mampfio-lockup.svg` | Default. On `surface`, `surface-raised` or `surface-sunken`. |
+| <img src="assets/Logos/mampfio-lockup-reversed.svg" alt="Mampfio lockup, reversed" height="32"> | `mampfio-lockup-reversed.svg` | On dark grounds: `surface` in the dark theme, or photos with a dark area. |
+| <img src="assets/Logos/mampfio-mark.svg" alt="Mampfio mark" height="32"> | `mampfio-mark.svg` | When the name already appears nearby: navigation, loading screen, social avatar. |
+| <img src="assets/Logos/mampfio-app-icon.svg" alt="Mampfio app icon" height="32"> | `mampfio-app-icon.svg` | App icon, and favicon from 32 px up. |
+| <img src="assets/Logos/mampfio-wordmark.svg" alt="Mampfio wordmark" height="32"> | `mampfio-wordmark.svg` | Only where the mark doesn't fit, such as a text footer. |
+| <img src="assets/Logos/mampfio-favicon.svg" alt="Mampfio favicon" height="32"> | `mampfio-favicon.svg` | Browser tab favicon, and anywhere the mark is shown below 32 px. |
 
 **Clear space:** Keep a quarter of the mark's height free on every side. At a mark height of 120 px that is 30 px.
 

@@ -22,7 +22,7 @@ Mampfio has two status roles: `success` and `error`. Use `.alert-success` and `.
 
 ## Badges
 
-Badges mark offers and news. They use `cheese` with `on-cheese` text, which is what `.text-bg-warning` means in Mampfio.
+Badges mark offers and news. They use `cheese` with <dfn title="The text or icon colour that stays readable on top of the named colour.">`on-cheese`</dfn> text, which is what `.text-bg-warning` means in Mampfio.
 
 ```html example
 <span class="badge text-bg-warning">Neu in Köln</span>

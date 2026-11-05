@@ -101,3 +101,6 @@ footer a { color: inherit; }
   .top, main, footer { padding-left: var(--space-4); padding-right: var(--space-4); }
   h1 { font: var(--text-heading); }
 }
+
+/* Glossary terms: explained on hover via title, marked once per page. */
+dfn[title] { font-style: normal; text-decoration: underline dotted; text-underline-offset: 0.2em; cursor: help; }

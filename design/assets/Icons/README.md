@@ -1,8 +1,8 @@
 # Icons
 
-Mampfio uses a selection of [Lucide](https://lucide.dev) icons: stroke icons on a 24 px grid with a 2 px stroke and rounded ends, the brand book's icon style.
+Mampfio uses a selection of [Lucide](https://lucide.dev) icons: line icons (outlined, not filled) on a 24 px grid with 2 px lines and rounded ends, the brand book's icon style.
 
-Icons draw in `currentColor`, so they take the text colour: `ink` on surfaces, `on-action` on primary buttons. Only the icons listed here are part of the design system. Each has one meaning; don't use an icon for something else.
+Icons draw in `currentColor`, so they take the text colour: <dfn title="Design-system name for the text colour.">`ink`</dfn> on surfaces, <dfn title="The text or icon colour that stays readable on top of the named colour.">`on-action`</dfn> on primary buttons. Only the icons listed here are part of the design system. Each has one meaning; don't use an icon for something else.
 
 ## Ordering
 

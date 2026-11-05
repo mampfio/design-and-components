@@ -1,6 +1,6 @@
 # Forms
 
-Form controls are Bootstrap's, with Mampfio's `control-border` (at least 3:1 against the surface) and the Mampfio focus ring. Labels use `.mf-label`.
+Form controls are Bootstrap's, with Mampfio's `control-border` (at least <dfn title="WCAG contrast ratio between text and background. 4.5:1 is the minimum for normal text; 3:1 for large text, borders and focus rings.">3:1</dfn> against the surface) and the Mampfio focus ring. Labels use `.mf-label`.
 
 ```html example
 <form class="mx-0" style="max-width: 420px" onsubmit="return false">
@@ -46,5 +46,5 @@ Errors use `error`, always with text, never colour alone. Put the message under 
 
 - Every field has a visible label. Placeholders are examples, not labels.
 - Help text is `.mf-caption` with `.text-body-secondary`.
-- Error messages follow the tone of voice: short, friendly, no "Ups!", no exclamation marks.
+- Error messages follow the <dfn title="How the brand sounds in writing: word choice, formality, humour.">tone of voice</dfn>: short, friendly, no "Ups!", no exclamation marks.
 - Known limit: a checked checkbox or switch keeps the light `action` colour in dark mode.

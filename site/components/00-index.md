@@ -1,6 +1,6 @@
 # Components
 
-The Mampfio Component Library contains Bootstrap 5.3 with Mampfio's tokens. Every SCS writes ordinary Bootstrap markup and gets the Mampfio look. These pages show the parts that Mampfio uses, with the rules that come with them. Everything not listed here works as in the [official Bootstrap documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/), with Mampfio's colours.
+The Mampfio Component Library contains Bootstrap 5.3 with Mampfio's <dfn title="A named design decision (colour, size, spacing), defined once in tokens.json and used everywhere.">tokens</dfn>. Every SCS writes ordinary Bootstrap markup and gets the Mampfio look. These pages show the parts that Mampfio uses, with the rules that come with them. Everything not listed here works as in the [official Bootstrap documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/), with Mampfio's colours.
 
 Every example is rendered live with the same `mampfio.min.css` the Component Library ships. The **Dark** button at the top switches the examples too.
 

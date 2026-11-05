@@ -65,7 +65,7 @@ Every Mampfio page has the same frame: the shared header, one `main` with the pa
 ## Rules
 
 - **Page margins:** put `.px-4 .px-lg-8` on every `.container`. Bootstrap's own container padding is 12 px, which isn't a Mampfio step.
-- **One `h1` per page,** in `.mf-display-l`. `.mf-display-xl` is for the landing page hero only.
+- **One `h1` per page,** in `.mf-display-l`. `.mf-display-xl` is for the large headline at the top of the landing page only.
 - **Sections** are `space-12` apart (`.mb-12`); a section heading is `space-6` above its content (`.mb-6`).
 - **Lists of cards** use `.row-cols-*` with `.g-6`: one column on phones, two from `md`, three from `lg`.
 - **Breakpoints** are Bootstrap's: `sm` 576 px, `md` 768 px, `lg` 992 px, `xl` 1200 px, `xxl` 1400 px.

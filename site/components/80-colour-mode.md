@@ -27,7 +27,7 @@ The attribute also works on a part of the page. Everything inside takes the othe
 
 ## Rules
 
-- **Set `data-theme`, never `data-bs-theme`.** With Bootstrap's attribute, Bootstrap's parts switch but the Mampfio tokens don't, so the page ends up half dark.
+- **Set `data-theme`, never `data-bs-theme`.** With Bootstrap's attribute, Bootstrap's parts switch but the Mampfio <dfn title="A named design decision (colour, size, spacing), defined once in tokens.json and used everywhere.">tokens</dfn> don't, so the page ends up half dark.
 - **The preference belongs to the user, not to one SCS.** If Discovery shows dark and Ordering light, the theme flips at every boundary. All SCS read the same cookie, below, and render `data-theme` on the server, so the page doesn't flash.
 - **Logos switch with the theme.** Use `mampfio-lockup.svg` on light and `mampfio-lockup-reversed.svg` on dark.
 

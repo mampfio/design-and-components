@@ -2,7 +2,7 @@
 
 ## Empty
 
-An empty list says what's missing and offers the next step. The icon sits in a `surface-sunken` circle; the text follows the tone of voice.
+An empty list says what's missing and offers the next step. The icon sits in a `surface-sunken` circle; the text follows the <dfn title="How the brand sounds in writing: word choice, formality, humour.">tone of voice</dfn>.
 
 ```html example
 <div class="text-center py-12 px-4">

@@ -6,18 +6,18 @@ The brand rests on one sentence: **Food should be fun, starting with the order.*
 
 ## Logo
 
-The logo combines the mark (face with pizza) and the wordmark "mampfio" set in lowercase Baloo 2 ExtraBold. The wordmark is drawn as outlines, so it renders correctly without a web font. Every SCS serves them from the Component Library under `/webjars/mampfio-design-system/logos/`.
+The logo combines the <dfn title="The logo's symbol on its own, without the name.">mark</dfn> (face with pizza) and the <dfn title="The brand name drawn as a fixed graphic, not set as live text.">wordmark</dfn> "mampfio" set in lowercase Baloo 2 ExtraBold. Together they form the <dfn title="Mark and wordmark in a fixed arrangement, used as one unit.">lockup</dfn>. The wordmark is stored as vector paths, not as text, so it renders correctly without a web font. Every SCS serves them from the Component Library under `/webjars/mampfio-design-system/logos/`.
 
 | Logo | File | Use |
 | --- | --- | --- |
 | <img src="assets/Logos/mampfio-lockup.svg" alt="Mampfio lockup" height="32"> | `mampfio-lockup.svg` | Default. On `surface`, `surface-raised` or `surface-sunken`. |
-| <img src="assets/Logos/mampfio-lockup-reversed.svg" alt="Mampfio lockup, reversed" height="32"> | `mampfio-lockup-reversed.svg` | On dark grounds: `surface` in the dark theme, or photos with a dark area. |
+| <img src="assets/Logos/mampfio-lockup-reversed.svg" alt="Mampfio lockup, reversed" height="32"> | `mampfio-lockup-reversed.svg` | <dfn title="Logo variant in light colours for dark backgrounds.">Reversed</dfn>, for dark backgrounds: `surface` in the dark theme, or photos with a dark area. |
 | <img src="assets/Logos/mampfio-mark.svg" alt="Mampfio mark" height="32"> | `mampfio-mark.svg` | When the name already appears nearby: navigation, loading screen, social avatar. |
 | <img src="assets/Logos/mampfio-app-icon.svg" alt="Mampfio app icon" height="32"> | `mampfio-app-icon.svg` | App icon, and favicon from 32 px up. |
 | <img src="assets/Logos/mampfio-wordmark.svg" alt="Mampfio wordmark" height="32"> | `mampfio-wordmark.svg` | Only where the mark doesn't fit, such as a text footer. |
 | <img src="assets/Logos/mampfio-favicon.svg" alt="Mampfio favicon" height="32"> | `mampfio-favicon.svg` | Browser tab favicon, and anywhere the mark is shown below 32 px. |
 
-**Clear space:** Keep a quarter of the mark's height free on every side. At a mark height of 120 px that is 30 px.
+**<dfn title="Minimum empty margin around the logo that no other element may enter.">Clear space</dfn>:** Keep a quarter of the mark's height free on every side. At a mark height of 120 px that is 30 px.
 
 **Minimum sizes:** The lockup is at least 120 px wide on screen and 30 mm in print. The mark is at least 32 px tall. Below that, the teeth, crumbs and pepperoni disappear, so use `mampfio-favicon.svg` instead: the same face and slice, simplified for 16 px.
 
@@ -32,19 +32,19 @@ The logo combines the mark (face with pizza) and the wordmark "mampfio" set in l
 
 Colours have roles. When you need a colour, look for the role, not the hue.
 
-- **Ground:** `surface` (cream) is the default. `surface-raised` carries cards, and `surface-sunken` sets areas apart.
-- **Text:** `ink` (plum) for everything readable, `ink-muted` for metadata. There is no pure black.
-- **Action:** `action` with `on-action` for the single primary action per screen, typically "In den Warenkorb" (add to basket) or "Bestellen" (order). `link` and `focus` use the darker berry.
+- **Background:** `surface` (cream) is the default. `surface-raised` carries cards, and `surface-sunken` sets areas apart.
+- **Text:** <dfn title="Design-system name for the text colour.">`ink`</dfn> (plum) for everything readable, `ink-muted` for metadata. There is no pure black.
+- **Action:** `action` with <dfn title="The text or icon colour that stays readable on top of the named colour.">`on-action`</dfn> for the single primary action per screen, typically "In den Warenkorb" (add to basket) or "Bestellen" (order). `link` and `focus` use the darker berry.
 - **Brand and illustration:** `brand-berry`, `cheese`, `crust` and `pepperoni` come from the logo. Only `cheese` may appear as a UI highlight, with `on-cheese` as its text colour.
 - **Status:** `error` and `success` always appear together with an icon and text.
 
-`brand-berry` is deliberately not a UI colour. Cream on the logo pink reaches only 4.3:1 and fails for normal-sized text. That is why `action` is one step darker.
+`brand-berry` is deliberately not a UI colour. Cream on the logo pink reaches only <dfn title="WCAG contrast ratio between text and background. 4.5:1 is the minimum for normal text; 3:1 for large text, borders and focus rings.">4.3:1</dfn> and fails for normal-sized text. That is why `action` is one step darker.
 
 ## Typography
 
 Two families. Both ship with the Component Library (`fonts/`), so don't load them from Google Fonts or any other CDN:
 
-- **Baloo 2** (`display`) in ExtraBold for headings. It is round and good-natured, like the logo. Never use it for body text or below 20 px.
+- **Baloo 2** (<dfn title="Token for the heading typeface: large type only, never running text.">`display`</dfn>) in ExtraBold for headings. It is round and good-natured, like the logo. Never use it for body text or below 20 px.
 - **Nunito Sans** (`sans`) for everything else. It is calm enough to keep menus readable.
 
 Prices are set in `body-strong`. Metadata such as delivery time and delivery fee is set in `caption` in `ink-muted`, never smaller than 13 px.
@@ -61,9 +61,9 @@ Food is drawn flat, in the logo colours, with rounded ends and no gradients. Whe
 
 ## Iconography
 
-Icons are stroke icons on a 24 px grid, with a 2 px stroke and rounded ends, in `ink` or `on-action`. Mampfio uses a selection from [Lucide](https://lucide.dev), listed with their meanings in `design/assets/Icons/README.md`. Each icon has one meaning. An icon never stands in for the logo, and status icons always come with text.
+Icons are line icons (outlined, not filled) on a 24 px grid, with 2 px lines and rounded ends, in `ink` or `on-action`. Mampfio uses a selection from [Lucide](https://lucide.dev), listed with their meanings in `design/assets/Icons/README.md`. Each icon has one meaning. An icon never stands in for the logo, and status icons always come with text.
 
-## Tone of voice
+## <dfn title="How the brand sounds in writing: word choice, formality, humour.">Tone of voice</dfn>
 
 The product speaks German. Mampfio uses the informal "du", keeps sentences short and sounds like someone who enjoys eating. Humour is used sparingly, at most once per screen and never in error messages.
 
@@ -77,7 +77,7 @@ The don'ts are formal ("Ihre"), bureaucratic, cutesy or shouty.
 
 ## Accessibility
 
-Every text pairing in the tokens reaches at least 4.5:1 in both themes. The ratios are listed in the usage notes. Control borders and the focus ring reach at least 3:1. Status is never conveyed by colour alone, because `error` and `action` both sit in the red range.
+Every text pairing in the <dfn title="A named design decision (colour, size, spacing), defined once in tokens.json and used everywhere.">tokens</dfn> reaches at least 4.5:1 in both themes. The ratios are listed in the usage notes. Control borders and the focus ring reach at least 3:1. Status is never conveyed by colour alone, because `error` and `action` both sit in the red range.
 
 ## Open points
 

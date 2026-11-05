@@ -1,6 +1,6 @@
 # Spacing
 
-Spacing follows the design system's 4 px grid. Bootstrap's spacing utilities (`p-*`, `m-*`, `gap-*`, `g-*` and their side variants) are renamed to the token steps: the number in the class is the token's number.
+Spacing follows the design system's 4 px grid. Bootstrap's spacing utilities (`p-*`, `m-*`, `gap-*`, `g-*` and their side variants) are renamed to the <dfn title="A named design decision (colour, size, spacing), defined once in tokens.json and used everywhere.">token</dfn> steps: the number in the class is the token's number.
 
 ```html example
 <div class="d-flex flex-wrap align-items-end gap-4">
@@ -24,7 +24,7 @@ Spacing follows the design system's 4 px grid. Bootstrap's spacing utilities (`p
 | `6` | `space-6` | 24 px | Gap between cards |
 | `8` | `space-8` | 32 px | Desktop page margin |
 | `12` | `space-12` | 48 px | Gap between sections |
-| `16` | `space-16` | 64 px | Hero padding |
+| `16` | `space-16` | 64 px | Padding of the landing page's top section |
 
 ## Rules
 

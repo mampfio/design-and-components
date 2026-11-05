@@ -34,8 +34,8 @@ A menu lists dishes in a flush list group inside a card. Each dish has its name,
 </section>
 ```
 
-- The dish name is `.mf-body-strong`, not a Baloo heading: a menu has dozens of them, and the section heading carries the display face.
-- The description is `.mf-body` in `ink`; it's content, not metadata.
+- The dish name is `.mf-body-strong`, not a Baloo heading: a menu has dozens of them, and the section heading carries Baloo 2.
+- The description is `.mf-body` in <dfn title="Design-system name for the text colour.">`ink`</dfn>; it's content, not metadata.
 - The add button names the dish in its `aria-label`, so a screen reader list of buttons makes sense.
 
 ## Quantity stepper

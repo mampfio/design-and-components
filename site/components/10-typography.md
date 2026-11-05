@@ -14,7 +14,7 @@ Bootstrap's reboot sets body text in Nunito Sans and headings in Baloo 2. For an
 
 | Class | Use |
 | --- | --- |
-| `.mf-display-xl` | Landing page hero, at most one line per screen |
+| `.mf-display-xl` | Large headline at the top of the landing page, at most one line per screen |
 | `.mf-display-l` | Page titles |
 | `.mf-heading` | Section headings |
 | `.mf-heading-s` | Restaurant names on cards, dialog titles |

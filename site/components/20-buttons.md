@@ -25,7 +25,7 @@ Prefer an enabled button with a clear message over a disabled one. "Bestellen" t
 ## Rules
 
 - **Exactly one primary button per screen.** Typically "In den Warenkorb" or "Bestellen". A list of restaurant cards with a primary button on each card breaks the rule; the screen's main action is elsewhere.
-- **Everything else is `.btn-outline-secondary`.** It uses `control-border` and `ink`, so it stays readable in both themes.
+- **Everything else is `.btn-outline-secondary`.** It uses `control-border` and <dfn title="Design-system name for the text colour.">`ink`</dfn>, so it stays readable in both themes.
 - **Don't use the other variants** (`.btn-secondary`, `.btn-success`, `.btn-danger`, `.btn-warning`, `.btn-info`, `.btn-light`, `.btn-dark`, or the other outline variants). They stay light in dark mode.
 - Button labels are short verbs in German, with the informal "du": "Bestellen", not "Bestellung absenden".
 

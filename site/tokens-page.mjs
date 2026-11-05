@@ -46,7 +46,7 @@ export function tokensPage(tokens) {
   );
 
   return `<h1>Tokens</h1>
-<p>Every value of the Mampfio design system, from <code>design/tokens.json</code>. Pages that load the WebJar get them as CSS custom properties: <code>color: var(--ink)</code>, <code>padding: var(--space-4)</code>, <code>font: var(--text-body)</code>. Colours switch with <code>data-theme</code>; everything else is the same in both themes.</p>
+<p>Every value of the Mampfio design system, from <code>design/tokens.json</code>. Pages that load the Component Library get them as CSS custom properties: <code>color: var(--ink)</code>, <code>padding: var(--space-4)</code>, <code>font: var(--text-body)</code>. Colours switch with <code>data-theme</code>; everything else is the same in both themes.</p>
 <h2>Colour</h2>
 ${colours}
 <h2>Type</h2>

@@ -1,12 +1,12 @@
 # Components
 
-The Mampfio WebJar contains Bootstrap 5.3 with Mampfio's tokens. Every SCS writes ordinary Bootstrap markup and gets the Mampfio look. These pages show the parts that Mampfio uses, with the rules that come with them. Everything not listed here works as in the [official Bootstrap documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/), with Mampfio's colours.
+The Mampfio Component Library contains Bootstrap 5.3 with Mampfio's tokens. Every SCS writes ordinary Bootstrap markup and gets the Mampfio look. These pages show the parts that Mampfio uses, with the rules that come with them. Everything not listed here works as in the [official Bootstrap documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/), with Mampfio's colours.
 
-Every example is rendered live with the same `mampfio.min.css` the WebJar ships. The **Dark** button at the top switches the examples too.
+Every example is rendered live with the same `mampfio.min.css` the Component Library ships. The **Dark** button at the top switches the examples too.
 
 ## Installing
 
-Every release ships the same build twice: as a WebJar for Maven and as an npm package. Both are assets of a [GitHub release](https://github.com/mampfio/design-and-components/releases); there is no Maven or npm registry. Set `VERSION` to a released version.
+Every release ships the Component Library twice: as a WebJar for Maven and as an npm package. Both are assets of a [GitHub release](https://github.com/mampfio/design-and-components/releases); there is no Maven or npm registry. Set `VERSION` to a released version.
 
 ### As a WebJar (Maven)
 
@@ -73,7 +73,7 @@ Icons come from one sprite and take the text colour. The [Icons](icons.html) pag
 <svg class="mf-icon" aria-hidden="true"><use href="/webjars/mampfio-design-system/icons/icons.svg#bike"></use></svg>
 ```
 
-`<use>` only loads sprites from the page's own origin. That's fine, because every SCS serves the WebJar itself. A web component on a page from another origin has to fetch the icon and inline it.
+`<use>` only loads sprites from the page's own origin. That's fine, because every SCS serves the Component Library itself. A web component on a page from another origin has to fetch the icon and inline it.
 
 ## What's inside
 

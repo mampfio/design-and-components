@@ -6,7 +6,7 @@
 
   <groupId>de.mampfio</groupId>
   <artifactId>mampfio-design-system</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
   <name>Mampfio design system (WebJar)</name>
   <description>Tokens, fonts, logos and the compiled Mampfio stylesheet with Bootstrap 5 inside.</description>

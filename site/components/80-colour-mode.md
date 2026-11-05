@@ -33,7 +33,7 @@ The attribute also works on a part of the page. Everything inside takes the othe
 
 ## What stays light in dark mode
 
-Bootstrap 5 compiles theme colours at build time. The WebJar corrects primary and outline secondary buttons, focus rings and cards. These keep their light colours:
+Bootstrap 5 compiles theme colours at build time. The Component Library corrects primary and outline secondary buttons, focus rings and cards. These keep their light colours:
 
 - utilities such as `.bg-primary` and `.text-bg-success` (except `.text-bg-warning`, cheese is the same in both themes),
 - checked checkboxes, switches, active pills and active pagination items,
